@@ -1,3 +1,15 @@
+#include "../library/mlx/mlx.h"
+
+// ---- DEFINITIONS
+#define G_NAME "CUB3D - Raycast"
+
+#define MLX_WIDTH 1024
+#define MLX_HEIGHT 768
+#define MLX_EXIT 17
+
+#define K_ESC 65307
+
+// ---- STRUCTS
 typedef struct s_img
 {
 	int	bpp;

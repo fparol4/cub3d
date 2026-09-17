@@ -1,47 +1,57 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iheader -Ilibrary/libft -Ilibrary/mlx
+CFLAGS = -Wall -Wextra -Werror
+CPPFLAGS = -I. -Ilibrary/libft -Ilibrary/mlx
+DEPFLAGS = -MMD -MP
 
 # DIRECTORIES
-SRCS_DIR = source
-OBJS_DIR = build
-LIBFT_DIR = library/libft
-MLX_DIR = library/mlx
+DIR_SRC = source
+DIR_OBJ = build
+DIR_MLX = library/mlx
+DIR_LIBFT = library/libft
 
 # DEFINITIONS
-SRCS = $(SRCS_DIR)/main.c
-OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-LIBFT = $(LIBFT_DIR)/libft.a
-MLX = $(MLX_DIR)/libmlx.a
-LIBS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+SRC = $(DIR_SRC)/main.c \
+	$(DIR_SRC)/game/general.c \
+	$(DIR_SRC)/game/set.c \
+	$(DIR_SRC)/game/hook.c \
+	$(DIR_SRC)/game/render.c
+
+OBJ = $(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
+DEP = $(OBJ:.o=.d)
+MLX = $(DIR_MLX)/libmlx.a
+LIBFT = $(DIR_LIBFT)/libft.a
+LIB = -L$(DIR_LIBFT) -lft -L$(DIR_MLX) -lmlx -lXext -lX11 -lm
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(MLX) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+$(NAME): $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR)
+	@make -C $(DIR_LIBFT)
 
 $(MLX):
-	make -C $(MLX_DIR)
+	make -C $(DIR_MLX)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJS_DIR)
-	@make clean -C $(LIBFT_DIR)
-	@make clean -C $(MLX_DIR)
+	@rm -rf $(DIR_OBJ)
+	@make clean -C $(DIR_LIBFT)
+	@make clean -C $(DIR_MLX)
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR)
+	@make fclean -C $(DIR_LIBFT)
 
 re: fclean all
 
 bonus: all
+
+-include $(DEP)
 
 .PHONY: all clean fclean re bonus

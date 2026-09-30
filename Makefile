@@ -16,7 +16,10 @@ SRC = $(DIR_SRC)/main.c \
 	$(DIR_SRC)/game/general.c \
 	$(DIR_SRC)/game/set.c \
 	$(DIR_SRC)/game/hook.c \
-	$(DIR_SRC)/game/render.c
+	$(DIR_SRC)/game/render_common.c \
+	$(DIR_SRC)/game/render_minimap.c \
+	$(DIR_SRC)/game/player.c \
+	$(DIR_SRC)/game/raycast.c
 
 OBJ = $(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 DEP = $(OBJ:.o=.d)

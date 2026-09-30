@@ -1,8 +1,9 @@
 NAME = cub3D
+ALIAS = cub3d
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = -I. -Ilibrary/libft -Ilibrary/mlx
+CPPFLAGS = -I. -Ilibrary/libft -Ilibrary/libft/lib/ft_gnline -Ilibrary/mlx
 DEPFLAGS = -MMD -MP
 
 # DIRECTORIES
@@ -12,25 +13,21 @@ DIR_MLX = library/mlx
 DIR_LIBFT = library/libft
 
 # DEFINITIONS
-SRC = $(DIR_SRC)/main.c \
-	$(DIR_SRC)/game/general.c \
-	$(DIR_SRC)/game/set.c \
-	$(DIR_SRC)/game/hook.c \
-	$(DIR_SRC)/game/render_common.c \
-	$(DIR_SRC)/game/render_minimap.c \
-	$(DIR_SRC)/game/player.c \
-	$(DIR_SRC)/game/raycast.c
+SRC = $(shell find $(DIR_SRC) -type f -name '*.c')
 
-OBJ = $(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
+OBJ = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SRC))
 DEP = $(OBJ:.o=.d)
 MLX = $(DIR_MLX)/libmlx.a
 LIBFT = $(DIR_LIBFT)/libft.a
 LIB = -L$(DIR_LIBFT) -lft -L$(DIR_MLX) -lmlx -lXext -lX11 -lm
 
-all: $(NAME)
+all: $(NAME) $(ALIAS)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
+
+$(ALIAS): $(NAME)
+	cp $(NAME) $(ALIAS)
 
 $(LIBFT):
 	@make -C $(DIR_LIBFT)
@@ -48,7 +45,7 @@ clean:
 	@make clean -C $(DIR_MLX)
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(ALIAS)
 	@make fclean -C $(DIR_LIBFT)
 
 re: fclean all

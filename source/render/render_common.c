@@ -1,4 +1,4 @@
-#include "game.h"
+#include "../../cub3d.h"
 
 void render_line(t_img *img, t_point from, t_point to, int color)
 {
@@ -7,7 +7,6 @@ void render_line(t_img *img, t_point from, t_point to, int color)
 	int sx;
 	int sy;
 	int error;
-	int twice;
 	t_point p;
 
 	dx = abs(to.x - from.x);
@@ -21,17 +20,25 @@ void render_line(t_img *img, t_point from, t_point to, int color)
 		render_px(img, p, color);
 		if (p.x == to.x && p.y == to.y)
 			break ;
-		twice = 2 * error;
-		if (twice > -dy)
-		{
-			error -= dy;
-			p.x += sx;
-		}
-		if (twice < dx)
-		{
-			error += dx;
-			p.y += sy;
-		}
+		render_line_step(&p, dx, dy, sx, sy, &error);
+	}
+}
+
+void render_line_step(t_point *point, int dx, int dy, int sx, int sy,
+	int *error)
+{
+	int twice;
+
+	twice = 2 * *error;
+	if (twice > -dy)
+	{
+		*error -= dy;
+		point->x += sx;
+	}
+	if (twice < dx)
+	{
+		*error += dx;
+		point->y += sy;
 	}
 }
 

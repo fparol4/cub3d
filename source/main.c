@@ -1,17 +1,26 @@
 #include "../cub3d.h"
-#include "game/game.h"
+#include "libft.h"
+#include <string.h>
 
-int main(int argc, char **argv) {
-  (void)argc;
-  (void)argv;
+int main(int argc, char **argv)
+{
+	t_game game;
+	size_t len;
 
-  t_game g;
-
-  if (game_setup(&g))
-  	return (1);
-
-  mlx_loop(g.mlx);
-
-  game_cleanup(&g);
-  return (0);
+	if (argc != 2)
+	{
+		ft_putendl_fd("Usage: ./cub3d <map.cub>", 2);
+		return (1);
+	}
+	len = strlen(argv[1]);
+	if (len < 4 || strcmp(argv[1] + len - 4, ".cub"))
+	{
+		ft_putendl_fd("Usage: ./cub3d <map.cub>", 2);
+		return (1);
+	}
+	if (game_setup(&game, argv[1]))
+		return (1);
+	mlx_loop(game.mlx);
+	game_cleanup(&game);
+	return (0);
 }

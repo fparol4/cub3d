@@ -1,38 +1,5 @@
-#include "game.h"
+#include "../../cub3d.h"
 #include <string.h>
-#include <sys/time.h>
-
-static double get_time(void)
-{
-	struct timeval time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec + time.tv_usec / 1000000.0);
-}
-
-int set_map(t_game *game) {
-	static char *grid[] = {
-		"11111111",
-		"10001001",
-		"10000001",
-		"10110001",
-		"10000001",
-		"11111111",
-		NULL
-	};
-  game->map.grid = grid;
-  game->map.width = 8;
-	game->map.height = 6;
-	game->player.pos_x = 2.5;
-	game->player.pos_y = 2.5;
-	game->player.dir_x = 1.0;
-	game->player.dir_y = 0.0;
-	game->player.plane_x = 0.0;
-	game->player.plane_y = 1.0;
-	game->view_mode = VIEW_MINIMAP;
-	game->last_frame = get_time();
-  return (0);
-}
 
 int set_frame(t_game *game) {
   game->frame.width = MLX_WIDTH;

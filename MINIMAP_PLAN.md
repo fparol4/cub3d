@@ -4,44 +4,51 @@
 
 Complete the 2D minimap with a visible player, smooth movement, rotation,
 collision, and a field of view whose rays stop at walls. Reuse the same player
-and ray calculations for 3D rendering in the next session.
+and ray calculations for the 3D renderer.
 
 Work through one checkpoint at a time together. The first implementation pass
-now covers the core interactive minimap and leaves the parser and 3D renderer
-for later work.
+now includes an interactive minimap, `.cub` map loading, and a switchable flat-color
+3D renderer.
 
 ## Current state
 
 | File | Responsibility and state |
 | --- | --- |
-| `source/main.c` | Creates the game, enters the MLX event loop, and cleans up afterward. Arguments are ignored. |
-| `source/game/set.c` | Creates a static 8-by-6 map with border and internal walls, initializes the player and camera, sets up a 1024-by-768 window, image, and input/frame hooks. |
-| `source/game/render_minimap.c` | Draws the map, player and heading, and a 41-ray 90-degree FOV fan clipped by DDA wall hits. |
-| `source/game/render_common.c` | Provides bounded pixel writes, filled squares, and line drawing shared by renderers. |
-| `source/game/hook.c` | Tracks pressed and released movement/turn keys, exits on Escape, and clears input when focus is lost. |
-| `source/game/player.c` | Applies time-based movement, diagonal normalization, axis-separated wall collision, and direction/camera rotation. |
-| `source/game/raycast.c` | Exposes DDA wall hits with cell, side, world position, and ray parameter for reuse by 3D rendering. |
-| `source/game/general.c` | Owns the frame callback, caps elapsed time after stalls, clears and redraws the frame, and handles cleanup. |
-| `cub3d.h` | Contains image, map, player, and game types. Tiles are 128 pixels; the 8-by-6 demo map fills the 1024-by-768 window. Player position and direction use map units; camera plane is initialized to a 90-degree FOV. Texture paths and four texture images remain placeholders. |
-| `source/game/game.h` | Declares setup, cleanup, input, update, and drawing functions, plus named MLX event IDs and masks. |
+| `source/main.c` | Requires one `.cub` path, creates the game, enters the MLX event loop, and cleans up afterward. |
+| `source/set.c` | Creates the 1024-by-768 window, frame image, and MLX event hooks. The map and player now come from a `.cub` file. |
+| `source/render_minimap.c` | Draws the map, player and heading, and a 41-ray 90-degree FOV fan clipped by DDA wall hits. |
+| `source/render_common.c` | Provides bounded pixel writes, filled squares, and line drawing shared by renderers. |
+| `source/render_3d.c` | Draws flat-colored ceiling, wall columns, and floor using the shared DDA ray hits. |
+| `source/hook.c` | Tracks movement/turn keys, toggles views with M, exits on Escape, and clears input when focus is lost. |
+| `source/player.c` | Applies time-based movement, diagonal normalization, axis-separated wall collision, and direction/camera rotation. |
+| `source/raycast.c` | Exposes DDA wall hits with cell, side, world position, and ray parameter for reuse by 3D rendering. |
+| `source/general.c` | Owns the frame callback, caps elapsed time after stalls, dispatches minimap or 3D drawing, and handles cleanup. |
+| `source/parse.c` | Reads `.cub` directives and map rows, then validates colors, symbols, player count, and map enclosure. |
+| `source/utils.c` | Holds shared helpers, including the former file-local functions and parser utilities. |
+| `cub3d.h` | Holds the game types, enums, constants, and declarations for project functions. The demo map fills the 1024-by-768 view. |
 | `Makefile` | Builds with `-Wall -Wextra -Werror`, libft, Linux MLX, X11, and libm. Generates dependency files. |
 
 ### Problems and missing pieces
 
-- The minimap uses a fixed demo map; arguments and `.cub` files are not parsed.
+- `.cub` files now provide the map, player start direction, texture paths, and RGB colors. Texture files are parsed as paths but are not loaded yet.
 - The repository has generated outputs under `build/` and a tracked `cub3D`
   executable. Ignore rules now cover future generated outputs, but existing
   tracked build artifacts remain in the index.
-- The project's own source files do not pass Norminette. Style cleanup is outside
-  the current implementation focus.
-- There is no map parser, map validation, texture loading, or 3D projection yet.
-  No subject PDF or automated project tests were found in the inspected tree.
+- Texture loading, texture sampling, and validation against the official subject
+  requirements remain to be done.
 
 ### Verification performed
 
-- A fresh `make` succeeds with the project's warning flags after restoring
-  execute permission on `library/mlx/configure`.
-- Runtime interaction has not been checked in a visible X session.
+- All source files compile and link with the project's warning flags into a
+  temporary executable.
+- The sample `.cub` reaches MLX initialization, but this environment cannot
+  start a visible X window, so controls and appearance remain visually unchecked.
+
+## Current controls and map input
+
+Run `./cub3D maps/demo.cub`. W/S move, A/D strafe, arrow keys turn, M toggles
+views, and Escape exits. `.cub` texture paths are parsed but texture images are
+not loaded by the flat-color renderer yet.
 
 ## Proposed conventions
 
@@ -136,17 +143,16 @@ constant, and movement close to walls or corners produces no out-of-bounds reads
   graphical session when available.
 - Document the camera convention and ray hit fields for the next session.
 
-**Current implementation:** an interactive minimap with a visible player, input
-state, time-based movement and turning, collision against internal and border
-walls, and wall-clipped FOV rays. Build succeeds; graphical behavior still needs
-a visual run.
+**Current implementation:** `.cub` maps initialize the interactive minimap and
+switchable flat-color 3D MVP. Both views share player state, collision, and wall
+raycasting. A graphical run is still needed to review appearance and controls.
 
-## Next session: 3D
+## 3D handoff
 
 Reuse the camera-plane rays per screen column. With a unit direction and its
 perpendicular plane, the hit parameter for these unnormalized rays gives the
 perpendicular wall distance needed for projection. Do not substitute Euclidean
 ray length, which causes fisheye distortion.
 
-The first 3D MVP is planned in [MVP_3D_PLAN.md](MVP_3D_PLAN.md). Texture loading
-and a validated `.cub` parser remain beyond that MVP.
+The first 3D MVP is implemented in [MVP_3D_PLAN.md](MVP_3D_PLAN.md). Texture
+loading and a validated `.cub` parser remain beyond that MVP.

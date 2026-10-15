@@ -7,17 +7,18 @@
     T_WALL = 1
   } t_tile;
 
-  typedef enum e_key
+  // GAME-KEY
+  typedef enum e_gkey
   {
-    K_FORWARD,
-    K_BACKWARD,
-    K_LEFT,
-    K_RIGHT,
-    K_CLOCKWISE,
-    K_ACLOCKWISE,
-    K_VIEW,
-    K_COUNT,
-  } e_key;
+    GK_FORWARD,
+    GK_BACKWARD,
+    GK_LEFT,
+    GK_RIGHT,
+    GK_CLOCKWISE,
+    GK_ACLOCKWISE,
+    GK_VIEW,
+    GK_COUNT,
+  } t_gkey;
 
   typedef enum e_view
   {

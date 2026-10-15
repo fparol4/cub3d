@@ -8,5 +8,6 @@
   // --- INTERNAL
   #include "enum.h"
   #include "const.h"
+  #include "struct.h"
 
 #endif

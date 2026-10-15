@@ -72,9 +72,10 @@
    void *win;
    t_map map;
    t_img frame;
-   t_img texture[4];
-   t_player player;
    t_view view;
+   t_player player;
+   t_img texture[4];
+   int keys[K_COUNT];
  } t_game;
 
 #endif

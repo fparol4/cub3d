@@ -8,8 +8,8 @@
   #define S_PLAYER 24
 
   #define EVT_EXIT 17
-  #define EVT_PRESS 2
-  #define EVT_RELEASE 3
+  #define EVT_KEY_PRESS 2
+  #define EVT_KEY_RELEASE 3
   #define EVT_FOCUS_OUT 10
 
   #define COLOR_WALL    0x00808080

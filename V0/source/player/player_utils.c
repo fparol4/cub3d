@@ -33,9 +33,9 @@ int player_cell_blocked(t_game *game, double x, double y)
 
 int player_can_stand(t_game *game, double x, double y)
 {
-	double radius;
+	double footprint;
 
-	radius = 0.18;
+	footprint = 0.36;
 	return (!player_cell_blocked(game, x - radius, y - radius)
 		&& !player_cell_blocked(game, x + radius, y - radius)
 		&& !player_cell_blocked(game, x - radius, y + radius)

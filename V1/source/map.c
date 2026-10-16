@@ -1,7 +1,7 @@
 #include "shared/cub3d.h"
 #include "shared/struct.h"
 
-void map_cleanup(t_map *m)
+int map_cleanup(t_map *m)
 {
 	int i;
 
@@ -14,6 +14,7 @@ void map_cleanup(t_map *m)
 	free(m->we_texture);
 	free(m->ea_texture);
 	*m = (t_map) { 0 };
+	return (0);
 }
 
 int map_parse(t_game *g, char *map_path)

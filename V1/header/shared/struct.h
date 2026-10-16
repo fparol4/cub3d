@@ -23,6 +23,13 @@
     double plane_y;
   } t_player;
 
+  typedef struct s_move
+   {
+     double forward;
+     double strafe;
+     double elapsed;
+   } t_move;
+
   typedef struct s_ray_hit
   {
     int hit;
@@ -68,14 +75,17 @@
 
  typedef struct s_game
  {
-   void *mlx;
+   // GAME
    void *win;
+   void *mlx;
    t_map map;
    t_img frame;
-   t_view view;
    t_player player;
    t_img texture[4];
-   int keys[K_COUNT];
+   // STATE
+   t_view view;
+   double last_frame;
+   int keys[GK_COUNT];
  } t_game;
 
 #endif

@@ -1,5 +1,6 @@
 #include "shared/cub3d.h"
 #include "source/runtime.h"
+#include "source/hook.h"
 
 int setup_mlx(t_game *g)
 {
@@ -14,11 +15,11 @@ int setup_mlx(t_game *g)
 
 int setup_hook(t_game *g)
 {
-	mlx_hook(g->win, EVT_EXIT, 0, hook_close, g);
 	mlx_hook(g->win, EVT_KEY_PRESS, 0, hook_press, g);
 	mlx_hook(g->win, EVT_KEY_RELEASE, 0, hook_release, g);
 	mlx_hook(g->win, EVT_FOCUS_OUT, 0, hook_out, g);
-	mlx_loop_hook(g->mlx, hook_frame, g);
+	mlx_hook(g->win, EVT_EXIT, 0, runtime_close, g);
+	mlx_loop_hook(g->mlx, screen_frame, g);
 	return (0);
 }
 
@@ -53,4 +54,5 @@ int setup_game(t_game *g)
 		return (runtime_cleanup(g), 1);
 	if (setup_frame(g))
 		return (runtime_cleanup(g), 1);
+	return (0);
 }

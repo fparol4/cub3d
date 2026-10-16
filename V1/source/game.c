@@ -1,6 +1,7 @@
 #include "shared/struct.h"
 #include "source/common.h"
 #include "source/screen.h"
+#include "source/player.h"
 
 static void _game_capframe(double *elapsed)
 {

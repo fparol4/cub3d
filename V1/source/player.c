@@ -13,7 +13,7 @@ static int _player_cell_valid(t_game *g, double x, double y)
 		return (1);
 	if (cell_y < 0 || cell_y >= g->map.height)
 		return (1);
-	return (g->map.grid[cell_x][cell_y] != T_FLOOR);
+	return (g->map.grid[cell_y][cell_x] != T_FLOOR);
 }
 
 static int _player_pos_valid(t_game *g, double x, double y)
@@ -40,7 +40,8 @@ static int _player_move(t_game *g, double elapsed)
 	fw = g->keys[GK_FORWARD] - g->keys[GK_BACKWARD];
 	st = g->keys[GK_LEFT] - g->keys[GK_RIGHT];
 	ln = sqrt(pow(fw, 2) + pow(st, 2));
-	if (ln == 0.0) return (0);
+	if (ln == 0.0)
+		return (0);
 	fw /= ln;
 	st /= ln;
 	mx = (g->player.dir_x * fw - g->player.dir_y * st) * 2.5 * elapsed;
@@ -58,7 +59,7 @@ static void _player_rotate(t_player *p, double angle)
 	double cs;
 	double sn;
 
-	ox = g->player.dir_x;
+	ox = p->dir_x;
 	cs = cos(angle);
 	sn = sin(angle);
 	// direction

@@ -54,6 +54,14 @@
    t_ray_side side;
  } t_ray_state;
 
+ typedef struct s_raycast
+ {
+	double ray_x;
+	double ray_y;
+	t_ray_hit hit;
+	t_ray_state state;
+ } t_raycast;
+
  typedef struct s_point
  {
    int x;

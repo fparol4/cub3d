@@ -15,8 +15,8 @@ remember
 
 
 # [nextsteps#2]
-- write the player_update + player_move
-- write the raycast methods (+understand math)
+- write the player_update + player_move [ok]
+- write the raycast methods (+understand math) [NOW]
 - write the render methods
 - rm: add the minimap directly into the 3d vie
 
@@ -31,3 +31,12 @@ move_x = direction_x * 2.5 (speed) * elapsed (0.05)
 
 [other ways]
 fps = 1.0 / elapsed | 0.0168 (60fps), 0.0333 (30fps)
+
+# [raycast]
+
+ponto(t) = posição_do_jogador + t × direção_do_raio
+
+Em coordenadas:
+
+x(t) = pos_x + t × ray_x
+y(t) = pos_y + t × ray_y

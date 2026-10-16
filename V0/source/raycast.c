@@ -63,7 +63,7 @@ int cast_ray(t_game *game, double ray_x, double ray_y, t_ray_hit *hit)
 	hit->hit = 0;
 	ray_setup(game, ray_x, ray_y, &state);
 	steps = 0;
-	while (steps++ < game->map.width * game->map.height * 2)
+	while (steps++ < game->map.width + game->map.height)
 	{
 		ray_advance(&state, hit);
 		if (!ray_in_bounds(game, &state))

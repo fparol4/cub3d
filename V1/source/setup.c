@@ -1,4 +1,7 @@
-#include "shared/cub3d.h"
+#include "libft.h"
+#include "mlx.h"
+#include "core/const.h"
+#include "source/setup.h"
 #include "source/runtime.h"
 #include "source/hook.h"
 #include "source/game.h"

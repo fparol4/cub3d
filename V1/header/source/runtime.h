@@ -1,6 +1,6 @@
 #ifndef RUNTIME_H
 #define RUNTIME_H
-	#include "shared/cub3d.h"
+	#include "core/struct.h"
 
 	int runtime_run(t_game *g);
 	int runtime_close(t_game *g);

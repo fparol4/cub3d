@@ -1,6 +1,6 @@
 #ifndef SETUP_H
 #define SETUP_H
-	#include "shared/cub3d.h"
+	#include "core/struct.h"
 
 	int setup_mlx(t_game *g);
 	int setup_hook(t_game *g);

@@ -1,8 +1,7 @@
-
+#include "mlx.h"
 #include "source/screen.h"
 #include "source/render.h"
 #include "libft.h"
-#include "shared/enum.h"
 
 int screen_clear(t_game *g)
 {

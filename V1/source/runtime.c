@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include "libft.h"
+#include "mlx.h"
+#include "source/runtime.h"
 #include "source/map.h"
 #include "source/setup.h"
 

@@ -1,6 +1,5 @@
-#include "shared/const.h"
-#include "shared/enum.h"
-#include "shared/struct.h"
+#include "source/hook.h"
+#include "core/const.h"
 #include "source/runtime.h"
 #include "source/common.h"
 

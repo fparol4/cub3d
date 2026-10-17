@@ -1,5 +1,6 @@
-#include "shared/cub3d.h"
-#include "shared/struct.h"
+#include <stdlib.h>
+#include "libft.h"
+#include "source/map.h"
 
 int map_cleanup(t_map *m)
 {

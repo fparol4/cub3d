@@ -1,4 +1,3 @@
-#include "shared/cub3d.h"
 #include "source/runtime.h"
 
 int main(int argc, char **argv)

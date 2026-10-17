@@ -1,6 +1,5 @@
 #include <math.h>
-#include "shared/enum.h"
-#include "shared/struct.h"
+#include "source/player.h"
 
 static int _player_cell_valid(t_game *g, double x, double y)
 {

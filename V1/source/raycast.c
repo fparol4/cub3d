@@ -1,7 +1,7 @@
 #include <math.h>
 #include "source/raycast.h"
 
-static void raycast_setup(t_game *g, t_raycast *rc)
+static void _raycast_setup(t_game *g, t_raycast *rc)
 {
 	rc->state.map_x = (int) floor (g->player.pos_x);
 	rc->state.map_y = (int) floor (g->player.pos_y);
@@ -27,7 +27,7 @@ static void raycast_setup(t_game *g, t_raycast *rc)
 	}
 }
 
-static void raycast_advance(t_raycast *rc)
+static void _raycast_advance(t_raycast *rc)
 {
 	if (rc->state.side_x < rc->state.side_y)
 	{
@@ -45,7 +45,7 @@ static void raycast_advance(t_raycast *rc)
 	}
 }
 
-static int raycast_in_boundaries(t_game *g, t_raycast *rc)
+static int _raycast_in_boundaries(t_game *g, t_raycast *rc)
 {
 	return (
 		rc->state.map_x >= 0 &&
@@ -55,7 +55,7 @@ static int raycast_in_boundaries(t_game *g, t_raycast *rc)
 	);
 }
 
-static int raycast_is_hit(t_game *g, t_raycast *rc)
+static int _raycast_is_hit(t_game *g, t_raycast *rc)
 {
 	if (g->map.grid[rc->state.map_y][rc->state.map_x] == T_FLOOR)
 		return (0);
@@ -74,13 +74,13 @@ int raycast_cast(t_game *g, t_raycast *rc)
 
 	steps = 0;
 	rc->hit = (t_ray_hit){0};
-	raycast_setup(g, rc);
+	_raycast_setup(g, rc);
 	while (steps++ < g->map.width + g->map.height)
 	{
-		raycast_advance(rc);
-		if (!raycast_in_boundaries(g, rc))
+		_raycast_advance(rc);
+		if (!_raycast_in_boundaries(g, rc))
 			return (0);
-		if (raycast_is_hit(g, rc))
+		if (_raycast_is_hit(g, rc))
 			return (1);
 	}
 	return (0);

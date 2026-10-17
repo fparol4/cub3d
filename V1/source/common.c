@@ -1,7 +1,7 @@
-#include <stdlib.h>
 #include <time.h>
-#include "shared/enum.h"
-#include "shared/const.h"
+#include "source/common.h"
+#include "core/enum.h"
+#include "core/const.h"
 
 int common_kid(int keycode)
 {

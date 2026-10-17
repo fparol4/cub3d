@@ -1,5 +1,5 @@
-#include "shared/const.h"
-#include "shared/struct.h"
+#include "source/game.h"
+#include "core/const.h"
 #include "source/common.h"
 #include "source/screen.h"
 #include "source/player.h"

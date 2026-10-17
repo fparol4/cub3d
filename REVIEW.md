@@ -48,7 +48,7 @@ flowchart LR
 
 | Arquivo de apoio | Papel atual |
 | --- | --- |
-| [Makefile](Makefile) | Descobre `.c` de `source/`, `source/map/` e `source/render/`, compila dependências e liga `cub3D`; `bonus: all`. |
+| [Makefile](Makefile) | Lista explicitamente os `.c` de `source/`, `source/map/` e `source/render/`, chama o Makefile da libft, compila e liga `cub3D`; `bonus: all`. |
 | [maps/001.cub](maps/001.cub) | Cena pequena com jogador E; útil para primeira execução. |
 | [maps/002.cub](maps/002.cub) | Cena mais larga, jogador S, paredes internas. |
 | [maps/003.cub](maps/003.cub) | Cena de nove linhas/colunas, jogador W. |

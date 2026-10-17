@@ -12,28 +12,48 @@ DIR_INC = header
 DIR_MLX = library/mlx
 DIR_LFT = library/libft
 
-SR = $(wildcard $(DIR_SRC)/*.c $(DIR_SRC)/map/*.c $(DIR_SRC)/render/*.c)
-OB = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SR))
-DEP = $(OB:.o=.d)
+SR = \
+	$(DIR_SRC)/common.c \
+	$(DIR_SRC)/game.c \
+	$(DIR_SRC)/hook.c \
+	$(DIR_SRC)/main.c \
+	$(DIR_SRC)/map/map.c \
+	$(DIR_SRC)/map/map_cells.c \
+	$(DIR_SRC)/map/map_color.c \
+	$(DIR_SRC)/map/map_config.c \
+	$(DIR_SRC)/map/map_connectivity.c \
+	$(DIR_SRC)/map/map_grid.c \
+	$(DIR_SRC)/map/map_reader.c \
+	$(DIR_SRC)/map/map_validate.c \
+	$(DIR_SRC)/player.c \
+	$(DIR_SRC)/raycast.c \
+	$(DIR_SRC)/render/draw.c \
+	$(DIR_SRC)/render/fov.c \
+	$(DIR_SRC)/render/view.c \
+	$(DIR_SRC)/render/wall.c \
+	$(DIR_SRC)/runtime.c \
+	$(DIR_SRC)/screen.c \
+	$(DIR_SRC)/setup.c \
+	$(DIR_SRC)/texture.c
+
+OB = $(SR:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 MLX = $(DIR_MLX)/libmlx.a
 LIBFT = $(DIR_LFT)/libft.a
-LIBFT_SRC = $(shell find $(DIR_LFT) -name '*.c')
-LIBFT_HDR = $(shell find $(DIR_LFT) -name '*.h')
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(MLX) $(OB)
+$(NAME): $(OB) $(LIBFT) $(MLX)
 	$(CC) $(CF) $(OB) $(CL) $(CX) -o $(NAME)
 
-$(LIBFT): $(LIBFT_SRC) $(LIBFT_HDR) $(DIR_LFT)/Makefile
-	$(MAKE) -C $(DIR_LFT)
+$(LIBFT):
+	$(MAKE) -sC $(DIR_LFT)
 
 $(MLX):
-	$(MAKE) -C $(DIR_MLX)
+	$(MAKE) -sC $(DIR_MLX)
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CF) $(CI) -MMD -MP -c $< -o $@
+	$(CC) $(CF) $(CI) -c $< -o $@
 
 bonus: all
 
@@ -47,7 +67,5 @@ fclean: clean
 	@$(MAKE) fclean -C $(DIR_LFT)
 
 re: fclean all
-
--include $(DEP)
 
 .PHONY: all clean fclean re bonus

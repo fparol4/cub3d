@@ -67,7 +67,9 @@ SRC     = util/ft_isalpha.c \
           ds/d-array/ft_array_append.c
 
 OBJS = $(SRC:.c=.o)
-HEADERS = $(shell find . -type f -name '*.h')
+HEADERS = libft.h \
+          lib/ft_gnline/get_next_line.h \
+          lib/ft_printf/ft_printf.h
 
 all: $(NAME)
 

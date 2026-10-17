@@ -1,4 +1,4 @@
-NAME = cub3D
+NAME = cub3d
 
 CC = cc
 CF = -Wall -Wextra -Werror
@@ -37,6 +37,7 @@ SR = \
 	$(DIR_SRC)/texture.c
 
 OB = $(SR:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
+
 MLX = $(DIR_MLX)/libmlx.a
 LIBFT = $(DIR_LFT)/libft.a
 
@@ -55,8 +56,6 @@ $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CF) $(CI) -c $< -o $@
 
-bonus: all
-
 clean:
 	@rm -rf $(DIR_OBJ)
 	@$(MAKE) clean -C $(DIR_LFT)
@@ -68,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

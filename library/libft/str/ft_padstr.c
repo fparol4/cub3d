@@ -11,27 +11,30 @@
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include "stdio.h"
+#include <stdint.h>
 
-char	*ft_padstart(char *str, int max_size, char placeholder)
+char	*ft_padstart(const char *str, size_t max_size, char placeholder)
 {
-	int		i;
-	int		len;
-	int		diff;
-	char	pad[32];
+	size_t	i;
+	size_t	len;
+	size_t	diff;
 	char	*str_wpad;
 
+	if (!str)
+		return (NULL);
 	len = ft_strlen(str);
-	if (len >= max_size)
-		return (str);
-	diff = max_size - len;
-	if ((size_t)diff > sizeof(pad))
+	if (len < max_size)
+		diff = max_size - len;
+	else
+		diff = 0;
+	if (diff > SIZE_MAX - len - 1)
+		return (NULL);
+	str_wpad = ft_calloc(len + diff + 1, sizeof(char));
+	if (!str_wpad)
 		return (NULL);
 	i = 0;
 	while (i < diff)
-		pad[i++] = placeholder;
-	str_wpad = ft_calloc(max_size + 1, sizeof(char));
-	ft_memcpy(str_wpad, pad, diff);
-	ft_memcpy(str_wpad + diff, str, len);
+		str_wpad[i++] = placeholder;
+	ft_memcpy(str_wpad + diff, str, len + 1);
 	return (str_wpad);
 }

@@ -16,6 +16,7 @@ t_dlist	*ft_dlist_new(int id, t_dlist_node *node)
 {
 	t_dlist			*list;
 	t_dlist_node	*curr;
+	t_dlist_node	*previous;
 
 	list = malloc(sizeof(t_dlist));
 	if (!list)
@@ -25,11 +26,14 @@ t_dlist	*ft_dlist_new(int id, t_dlist_node *node)
 	list->tail = NULL;
 	list->size = 0;
 	curr = node;
+	previous = NULL;
 	while (curr)
 	{
 		curr->index = (int)list->size;
+		curr->previous = previous;
 		list->tail = curr;
 		list->size++;
+		previous = curr;
 		curr = curr->next;
 	}
 	return (list);

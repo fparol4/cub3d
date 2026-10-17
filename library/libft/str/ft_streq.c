@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_streq(char *a, char *b)
+int	ft_streq(const char *a, const char *b)
 {
 	int	i;
 

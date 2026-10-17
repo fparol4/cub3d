@@ -10,21 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdio.h>
+#include "../libft.h"
 
-size_t	ft_digits(int v, int size)
+size_t	ft_digits(size_t v, int size)
 {
 	size_t	digits;
 
-	if (size == 0)
+	if (size < 2)
 		return (0);
 	if (v == 0)
 		return (1);
 	digits = 0;
 	while (v != 0)
 	{
-		v = v / size;
+		v = v / (size_t)size;
 		digits++;
 	}
 	return (digits);

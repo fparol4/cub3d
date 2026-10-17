@@ -6,60 +6,89 @@
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-double	ft_vatof(char *s)
+static size_t	_atof_count_digits(const char **str)
 {
-	double	dot;
-	double	dig;
+	size_t	count;
 
-	if (!s || !*s)
-		return (0);
-	if (*s == '-' || *s == '+')
-		s++;
-	while (*s)
+	count = 0;
+	while (**str >= '0' && **str <= '9')
 	{
-		if (ft_isdigit(*s))
-			dig = 1;
-		else if (*s == '.')
-		{
-			if (dot)
-				return (0);
-			else
-				dot = 1;
-		}
-		else
-			return (0);
-		s++;
+		count++;
+		(*str)++;
 	}
-	return (dig);
+	return (count);
 }
 
-double	ft_atof(char *s)
+static double	_atof_integer(const char **str)
 {
-	double	sig;
-	double	val;
-	double	dec;
+	double	value;
 
-	val = 0.0;
-	dec = 0.1;
-	sig = 1.0;
-	if (*s == '-' || *s == '+')
-		if (*s++ == '-')
-			sig = -1;
-	while (ft_isdigit(*s))
-		val = val * 10 + (*s++ - '0');
-	if (*s++ == '.')
+	value = 0.0;
+	while (**str >= '0' && **str <= '9')
 	{
-		while (ft_isdigit(*s))
-		{
-			val += (*s++ - '0') * dec;
-			dec /= 10.0;
-		}
+		value = value * 10.0 + (**str - '0');
+		(*str)++;
 	}
-	return (val * sig);
+	return (value);
+}
+
+static double	_atof_fraction(const char **str)
+{
+	double	value;
+	double	place;
+
+	value = 0.0;
+	place = 0.1;
+	while (**str >= '0' && **str <= '9')
+	{
+		value += (**str - '0') * place;
+		place /= 10.0;
+		(*str)++;
+	}
+	return (value);
+}
+
+int	ft_vatof(const char *str)
+{
+	size_t	digits;
+
+	if (!str || !*str)
+		return (0);
+	if (*str == '+' || *str == '-')
+		str++;
+	digits = _atof_count_digits(&str);
+	if (*str == '.')
+	{
+		str++;
+		digits += _atof_count_digits(&str);
+	}
+	return (*str == '\0' && digits > 0);
+}
+
+double	ft_atof(const char *str)
+{
+	double	sign;
+	double	value;
+
+	if (!ft_vatof(str))
+		return (0.0);
+	sign = 1.0;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str++ == '-')
+			sign = -1.0;
+	}
+	value = _atof_integer(&str);
+	if (*str == '.')
+	{
+		str++;
+		value += _atof_fraction(&str);
+	}
+	return (value * sign);
 }

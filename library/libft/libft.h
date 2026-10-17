@@ -77,15 +77,19 @@ int						ft_vatoi(const char *str);
 long long				ft_atoll(const char *str);
 int						ft_signal(int v);
 int						ft_abs(int v);
+int						ft_lowerof(int a, int b);
 size_t					ft_digits(size_t v, int size);
 char					*ft_itoa(int n);
 char					*ft_itoab(int v, char *base);
 char					*ft_itoab_uns(size_t v, char *base);
+double					ft_atof(const char *s);
+int						ft_vatof(const char *s);
 
 /** str **/
 int						ft_toupper(int c);
 int						ft_tolower(int c);
 int						ft_strcmp(const char *s1, const char *s2);
+int						ft_streq(const char *s1, const char *s2);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 char					*ft_strchr(const char *s, int c);
 char					*ft_strrchr(const char *s, int c);
@@ -102,14 +106,17 @@ char					*ft_strmapi(char const *s, char (*f)(unsigned int,
 void					ft_striteri(char *s, void (*f)(unsigned int, char *));
 size_t					ft_strlen(const char *s);
 char					*ft_strcat(char *dst, const char *src);
+char					*ft_padstart(
+							const char *str, size_t max_size, char placeholder);
 size_t					ft_strlcpy(char *dst, const char *src, size_t n);
 size_t					ft_strlcat(char *dst, const char *src, size_t n);
 
 /** write **/
-size_t					ft_putchar_fd(char c, int fd);
-size_t					ft_putstr_fd(char *s, int fd);
-size_t					ft_putendl_fd(char *s, int fd);
-size_t					ft_putnbr_fd(int n, int fd);
+ssize_t					ft_write_all(int fd, const void *buffer, size_t size);
+ssize_t					ft_putchar_fd(char c, int fd);
+ssize_t					ft_putstr_fd(const char *s, int fd);
+ssize_t					ft_putendl_fd(const char *s, int fd);
+ssize_t					ft_putnbr_fd(int n, int fd);
 
 /** lib/ft_gnline **/
 char					*ft_get_next_line(int fd);

@@ -17,11 +17,14 @@ SRC     = util/ft_isalpha.c \
             mem/ft_secfree.c \
             num/ft_atoi.c \
           num/ft_itoa.c \
+          num/ft_itoab.c \
           num/ft_atof.c \
           num/ft_atoll.c \
           num/ft_digits.c \
            num/ft_signal.c \
+          num/ft_utils.c \
           write/ft_putchar_fd.c \
+          write/ft_write_all.c \
            write/ft_putstr_fd.c \
            write/ft_putendl_fd.c \
            write/ft_putnbr_fd.c \
@@ -46,6 +49,7 @@ SRC     = util/ft_isalpha.c \
           str/ft_strmapi.c \
           str/ft_striteri.c \
           str/ft_streq.c \
+          str/ft_padstr.c \
           ds/l-list/ft_lstnew.c \
           ds/l-list/ft_lstadd_front.c \
           ds/l-list/ft_lstadd_back.c \
@@ -63,13 +67,15 @@ SRC     = util/ft_isalpha.c \
           ds/d-array/ft_array_append.c
 
 OBJS = $(SRC:.c=.o)
+HEADERS = $(shell find . -type f -name '*.h')
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) Makefile
+	rm -f $(NAME)
 	ar -rcs $(NAME) $(OBJS)
 
-%.o: %.c
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

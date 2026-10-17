@@ -18,6 +18,6 @@
 int	ft_handle_int(int value);
 int	ft_handle_unsigned(unsigned int value);
 int	ft_handle_hex(unsigned int v, int upper);
-int	ft_handle_ptr(size_t address);
+int	ft_handle_ptr(void *address);
 
 #endif

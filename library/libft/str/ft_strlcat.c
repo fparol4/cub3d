@@ -34,12 +34,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t n)
 	size_t	d_len;
 	size_t	s_len;
 
-	d_len = ft_strlen(dst);
 	s_len = ft_strlen(src);
-	if (d_len >= n)
+	d_len = 0;
+	while (d_len < n && dst[d_len])
+		d_len++;
+	if (d_len == n)
 		return (s_len + n);
 	i = 0;
-	while (src[i] && i + d_len < n - 1)
+	while (src[i] && d_len + i < n - 1)
 	{
 		dst[d_len + i] = src[i];
 		i++;

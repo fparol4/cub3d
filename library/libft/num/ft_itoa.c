@@ -15,23 +15,25 @@
 char	*ft_itoa(int n)
 {
 	char	*str;
-	long	nb;
-	int		len;
+	size_t	nb;
+	size_t	len;
+	size_t	i;
 
-	nb = n;
-	len = ft_digits(n, 10);
-	str = (char *)malloc(len + 1);
+	if (n < 0)
+		nb = (size_t)(-(long long)n);
+	else
+		nb = (size_t)n;
+	len = ft_digits(nb, 10);
+	str = (char *)malloc(len + (n < 0) + 1);
 	if (!str)
 		return (0);
-	str[len] = '\0';
-	if (nb < 0)
-		nb = -nb;
-	if (n == 0)
-		str[0] = '0';
+	i = len + (n < 0);
+	str[i] = '\0';
+	if (nb == 0)
+		str[--i] = '0';
 	while (nb)
 	{
-		--len;
-		str[len] = (nb % 10) + '0';
+		str[--i] = (nb % 10) + '0';
 		nb /= 10;
 	}
 	if (n < 0)

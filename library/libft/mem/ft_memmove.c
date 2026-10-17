@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "../libft.h"
+#include <stdint.h>
 
-void	f_upwards(unsigned char *dst, unsigned char *src, size_t n)
+static void	_memmove_forward(unsigned char *dst, const unsigned char *src,
+					size_t n)
 {
 	size_t	i;
 
@@ -24,7 +26,8 @@ void	f_upwards(unsigned char *dst, unsigned char *src, size_t n)
 	}
 }
 
-void	f_backwards(unsigned char *dst, unsigned char *src, size_t n)
+static void	_memmove_backward(unsigned char *dst, const unsigned char *src,
+						size_t n)
 {
 	size_t	i;
 
@@ -41,14 +44,15 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	unsigned char	*dst_p;
 	unsigned char	*src_p;
 
-	if (!dst && !src)
+	if ((!dst || !src) && n)
 		return (NULL);
 	dst_p = (unsigned char *)dst;
 	src_p = (unsigned char *)src;
-	if (dst_p > src_p)
-		f_backwards(dst_p, src_p, n);
+	if ((uintptr_t)dst_p > (uintptr_t)src_p
+		&& (uintptr_t)dst_p - (uintptr_t)src_p < n)
+		_memmove_backward(dst_p, src_p, n);
 	else
-		f_upwards(dst_p, src_p, n);
+		_memmove_forward(dst_p, src_p, n);
 	return (dst);
 }
 

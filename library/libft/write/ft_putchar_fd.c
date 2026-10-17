@@ -5,15 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:20 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:20 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-size_t	ft_putchar_fd(char c, int fd)
+ssize_t	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
-	return (1);
+	return (ft_write_all(fd, &c, 1));
 }

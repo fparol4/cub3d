@@ -6,31 +6,52 @@
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
+#include <limits.h>
+
+static long long	_atoll_digits(const char *str, int signal)
+{
+	unsigned long long	result;
+	unsigned long long	limit;
+	int					digit;
+
+	limit = (unsigned long long)LLONG_MAX + (signal < 0);
+	result = 0;
+	while (*str >= '0' && *str <= '9')
+	{
+		digit = *str++ - '0';
+		if (result > (limit - digit) / 10)
+		{
+			if (signal < 0)
+				return (LLONG_MIN);
+			return (LLONG_MAX);
+		}
+		result = result * 10 + digit;
+	}
+	if (signal < 0 && result == limit)
+		return (LLONG_MIN);
+	if (signal < 0)
+		return (-(long long)result);
+	return ((long long)result);
+}
+
 long long	ft_atoll(const char *str)
 {
-	int			i;
-	long long	signal;
-	long long	result;
+	int	signal;
 
-	i = 0;
+	if (!str)
+		return (0);
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
 	signal = 1;
-	result = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (*str == '+' || *str == '-')
 	{
-		if (str[i] == '-')
+		if (*str++ == '-')
 			signal = -1;
-		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		result = result * 10 + (str[i] - '0');
-		i++;
-	}
-	return (result * signal);
+	return (_atoll_digits(str, signal));
 }

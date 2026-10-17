@@ -4,46 +4,37 @@
 
 ## Description
 
-cub3D is a first-person maze viewer written in C with miniLibX. It casts one
-ray per screen column using DDA, chooses a texture for the wall face hit by
-that ray, and draws ceiling and floor colors around the wall.
+cub3D is a C project that renders a first-person view of a maze with miniLibX. It uses a grid-based raycasting technique: one ray is cast for each screen column, the first wall hit is found with the Digital Differential Analyzer (DDA) algorithm, and a directional texture is drawn on that wall. The scene also has ceiling and floor colors.
 
-This version contains a temporary fixed map so rendering and movement can be
-finished before the `.cub` parser. The provided scene argument is checked for
-its extension but is not parsed yet. It is therefore a development build, not
-a complete submission of the mandatory subject.
+The current codebase is a development version. It uses a fixed map, player position, colors, and texture paths in the code. The `.cub` argument is checked for its extension but its contents are not parsed, so this version does not yet meet the mandatory scene-file parsing requirements of the subject.
+
+The current build includes wall collision and a minimap. The minimap is shown in the top-right corner of the 3D view and can be expanded to fill the window.
 
 ## Instructions
 
-On Linux with X11 development libraries installed:
+Build on Linux with a C compiler, make, and the X11 development libraries required by the bundled miniLibX:
 
 ```sh
 make
+```
+
+Run the program from the repository root:
+
+```sh
 ./cub3D maps/001.cub
 ```
 
-Use W, A, S, D to move, left/right arrows to turn, and Escape or the window
-close button to quit. The map stays visible at the top right of the 3D view.
-Press M to expand it to the full window; press M again to return to 3D.
-Wall collisions are enabled. `make clean`, `make fclean`, and `make re` are
-available. The `bonus` rule currently aliases `all`.
+The program currently renders its fixed development scene regardless of the contents of the supplied `.cub` file. Use W, A, S, or D to move, the left and right arrow keys to turn, and M to switch between the 3D view and the full-window map. Press Escape or close the window to quit.
 
-The subject classifies the minimap and wall collisions as bonus features.
-They are included here as development aids; their final submission treatment
-must be decided before evaluation.
-
-The XPM textures in `textures/` are simple development assets. Paths in scene
-files will replace the fixed paths when parsing is implemented. Run from the
-repository root until then.
+The Makefile provides `all`, `bonus`, `clean`, `fclean`, and `re` rules. The `bonus` rule currently builds the same program as `all`.
 
 ## Resources
 
-- [cub3D subject, version 12.0](../cub3d.subject.pdf): project requirements.
-- [miniLibX manual](library/mlx/man/man3/mlx.3): window, image, and event API.
-- [miniLibX README](library/mlx/README.md): build and platform details.
-- [libft sources](library/libft/): allocation, string, and memory helpers.
+- [Lode Vandevenne's raycasting tutorial](https://lodev.org/cgtutor/raycasting.html): reference for grid raycasting, DDA, camera projection, and textured walls.
+- [miniLibX manual](library/mlx/man/man3/mlx.3): reference for window, image, and event functions used by the project.
+- [Bundled miniLibX README](library/mlx/README.md): build and platform information for the graphics library.
+- [Project libft](library/libft/): the project's C utility library.
 
-AI assistance was used to review the project architecture and subject,
-organize functions and headers, split rendering, add temporary textures,
-check the 42 Norm, and identify failure paths. The code and behavior must
-still be reviewed and explained by the author during evaluation.
+### AI use
+
+AI assistance was used to review the cub3D subject and the project's architecture, suggest a split between source files and headers, and help organize rendering, player movement, raycasting, and window handling. It was also used to review function naming and parameter conventions, check the 42 Norm, and identify implementation and evaluation issues. The current code and its behavior must still be understood, verified, and explained by the project author.

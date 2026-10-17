@@ -5,37 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:20 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:20 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <stdio.h>
 
-static void	ft_putnbr_rec(long n, int fd)
+ssize_t	ft_putnbr_fd(int n, int fd)
 {
-	char	c;
+	char		buffer[12];
+	size_t		index;
+	long long	value;
+	int			sign;
 
-	if (n >= 10)
-		ft_putnbr_rec(n / 10, fd);
-	c = (n % 10) + '0';
-	write(fd, &c, 1);
-}
-
-size_t	ft_putnbr_fd(int n, int fd)
-{
-	int		s;
-	long	nb;
-
-	nb = n;
-	s = ft_digits(n, 10);
-	if (nb < 0)
+	value = n;
+	sign = (value < 0);
+	if (sign)
+		value = -value;
+	index = sizeof(buffer) - 1;
+	buffer[index] = '\0';
+	if (value == 0)
+		buffer[--index] = '0';
+	while (value)
 	{
-		write(fd, "-", 1);
-		s += 1;
-		nb = -nb;
+		buffer[--index] = (value % 10) + '0';
+		value /= 10;
 	}
-	ft_putnbr_rec(nb, fd);
-	return (s);
+	if (sign)
+		buffer[--index] = '-';
+	return (ft_write_all(fd, buffer + index, sizeof(buffer) - index - 1));
 }

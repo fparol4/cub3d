@@ -6,61 +6,74 @@
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <stddef.h>
 
-char	*ft_itoab(int v, char *base)
+static int	_itoab_valid_base(const char *base)
 {
-	int		b_size;
-	int		signal;
-	int		digits;
-	char	*v_str;
+	size_t	i;
+	size_t	j;
 
-	if (base == NULL)
-		return (NULL);
-	if (v == 0)
-		return (ft_strdup("0"));
-	b_size = ft_strlen(base);
-	signal = ft_signal(v);
-	digits = ft_digits(v, b_size);
-	if (digits == 0)
-		return (NULL);
-	if (signal == -1)
-		digits++;
-	v_str = ft_calloc((digits + 1), sizeof(char));
-	if (signal == -1)
-		v_str[0] = '-';
-	while (v != 0)
+	if (!base || ft_strlen(base) < 2)
+		return (0);
+	i = 0;
+	while (base[i])
 	{
-		v_str[--digits] = base[ft_abs(v % b_size) % b_size];
-		v = v / b_size;
+		if (base[i] == '+' || base[i] == '-')
+			return (0);
+		j = i + 1;
+		while (base[j] && base[i] != base[j])
+			j++;
+		if (base[j])
+			return (0);
+		i++;
 	}
-	return (v_str);
+	return (1);
 }
 
-char	*ft_itoab_uns(size_t v, char *base)
+static char	*_itoab_create(unsigned long long value, char *base, int sign)
 {
-	int		b_size;
-	int		digits;
-	char	*v_str;
+	size_t	base_size;
+	size_t	digits;
+	size_t	index;
+	char	*result;
 
-	if (base == NULL)
+	if (!_itoab_valid_base(base))
 		return (NULL);
-	if (v == 0)
-		return (ft_strdup("0"));
-	b_size = ft_strlen(base);
-	digits = ft_digits(v, b_size);
-	if (digits == 0)
+	base_size = ft_strlen(base);
+	digits = ft_digits((size_t)value, (int)base_size);
+	result = ft_calloc(digits + sign + 1, sizeof(char));
+	if (!result)
 		return (NULL);
-	v_str = ft_calloc((digits + 1), sizeof(char));
-	while (v != 0)
+	index = digits + sign;
+	if (!value)
+		result[--index] = base[0];
+	while (value)
 	{
-		v_str[--digits] = base[ft_abs(v % b_size) % b_size];
-		v = v / b_size;
+		result[--index] = base[value % base_size];
+		value /= base_size;
 	}
-	return (v_str);
+	if (sign)
+		result[0] = '-';
+	return (result);
+}
+
+char	*ft_itoab(int value, char *base)
+{
+	unsigned long long	magnitude;
+
+	if (value < 0)
+	{
+		magnitude = (unsigned long long)(-(long long)value);
+		return (_itoab_create(magnitude, base, 1));
+	}
+	return (_itoab_create((unsigned long long)value, base, 0));
+}
+
+char	*ft_itoab_uns(size_t value, char *base)
+{
+	return (_itoab_create(value, base, 0));
 }

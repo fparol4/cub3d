@@ -6,7 +6,7 @@
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,21 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# include <fcntl.h>
-# include <stdarg.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+# include <stddef.h>
 
-char	*get_next_line(int fd);
-void	ft_read_line(int fd, char **full_string);
-char	*ft_get_line(char *line);
-char	*ft_new_line(char *full_string);
-char	*gnl_strjoin(char const *string_line, char *buffer);
-size_t	gnl_strlen(const char *string);
-char	*gnl_strchr(const char *string, int c);
-char	*gnl_substr(char const *full_string, unsigned int start, size_t len);
-void	*gnl_calloc(size_t nmemb, size_t size);
-void	gnl_bzero(void *s, size_t n);
-int		check_read(int read_bytes, char ***full_string);
+typedef struct s_gnl_state
+{
+	int			fd;
+	char		*data;
+	size_t		length;
+	size_t		capacity;
+	void		*next;
+}				t_gnl_state;
+
+char	*ft_get_next_line(int fd);
+int		gnl_append(t_gnl_state *state, const char *chunk, size_t size);
+size_t	gnl_line_size(t_gnl_state *state);
+char	*gnl_take_line(t_gnl_state *state, size_t line_size);
+void	gnl_remove(t_gnl_state **states, int fd);
 
 #endif

@@ -1,3 +1,0 @@
-[submodule "library/libft"]
-	path = library/libft
-	url = https://github.com/fparol4/libft_v2

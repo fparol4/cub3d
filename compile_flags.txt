@@ -1,0 +1,6 @@
+-Wall
+-Wextra
+-Werror
+-Iheader
+-Ilibrary/libft
+-Ilibrary/mlx

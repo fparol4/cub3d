@@ -12,7 +12,7 @@ DIR_INC = header
 DIR_MLX = library/mlx
 DIR_LFT = library/libft
 
-SR = $(wildcard $(DIR_SRC)/*.c)
+SR = $(wildcard $(DIR_SRC)/*.c $(DIR_SRC)/render/*.c)
 OB = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SR))
 DEP = $(OB:.o=.d)
 MLX = $(DIR_MLX)/libmlx.a
@@ -33,6 +33,8 @@ $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CF) $(CI) -MMD -MP -c $< -o $@
 
+bonus: all
+
 clean:
 	@rm -rf $(DIR_OBJ)
 	@$(MAKE) clean -C $(DIR_LFT)
@@ -46,4 +48,4 @@ re: fclean all
 
 -include $(DEP)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

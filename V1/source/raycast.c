@@ -1,10 +1,22 @@
-#include <math.h>
-#include "source/raycast.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void _raycast_setup(t_game *g, t_raycast *rc)
+#include "source/raycast.h"
+#include <math.h>
+
+static void	_raycast_setup(t_game *g, t_raycast *rc)
 {
-	rc->state.map_x = (int) floor (g->player.pos_x);
-	rc->state.map_y = (int) floor (g->player.pos_y);
+	rc->state.map_x = (int)floor(g->player.pos_x);
+	rc->state.map_y = (int)floor(g->player.pos_y);
 	rc->state.delta_x = 1e30;
 	rc->state.delta_y = 1e30;
 	if (rc->ray_x != 0.0)
@@ -13,21 +25,17 @@ static void _raycast_setup(t_game *g, t_raycast *rc)
 		rc->state.delta_y = fabs(1.0 / rc->ray_y);
 	rc->state.step_x = 1;
 	rc->state.step_y = 1;
-	rc->state.side_x = (rc->state.map_x + 1 - g->player.pos_x) * rc->state.delta_x;
-	rc->state.side_y = (rc->state.map_y + 1 - g->player.pos_y) * rc->state.delta_y;
 	if (rc->ray_x < 0.0)
-	{
 		rc->state.step_x = -1;
-		rc->state.side_x = (g->player.pos_x - rc->state.map_x) * rc->state.delta_x;
-	}
 	if (rc->ray_y < 0.0)
-	{
 		rc->state.step_y = -1;
-		rc->state.side_y = (g->player.pos_y - rc->state.map_y) * rc->state.delta_y;
-	}
+	rc->state.side_x = fabs(rc->state.map_x + (rc->state.step_x > 0)
+			- g->player.pos_x) * rc->state.delta_x;
+	rc->state.side_y = fabs(rc->state.map_y + (rc->state.step_y > 0)
+			- g->player.pos_y) * rc->state.delta_y;
 }
 
-static void _raycast_advance(t_raycast *rc)
+static void	_raycast_advance(t_raycast *rc)
 {
 	if (rc->state.side_x < rc->state.side_y)
 	{
@@ -45,17 +53,13 @@ static void _raycast_advance(t_raycast *rc)
 	}
 }
 
-static int _raycast_in_boundaries(t_game *g, t_raycast *rc)
+static int	_raycast_in_boundaries(t_game *g, t_raycast *rc)
 {
-	return (
-		rc->state.map_x >= 0 &&
-		rc->state.map_y >= 0 &&
-		rc->state.map_x < g->map.width &&
-		rc->state.map_y < g->map.height
-	);
+	return (rc->state.map_x >= 0 && rc->state.map_y >= 0
+		&& rc->state.map_x < g->map.width && rc->state.map_y < g->map.height);
 }
 
-static int _raycast_is_hit(t_game *g, t_raycast *rc)
+static int	_raycast_is_hit(t_game *g, t_raycast *rc)
 {
 	if (g->map.grid[rc->state.map_y][rc->state.map_x] == T_FLOOR)
 		return (0);
@@ -68,9 +72,9 @@ static int _raycast_is_hit(t_game *g, t_raycast *rc)
 	return (1);
 }
 
-int raycast_cast(t_game *g, t_raycast *rc)
+int	raycast_cast(t_game *g, t_raycast *rc)
 {
-	int steps;
+	int	steps;
 
 	steps = 0;
 	rc->hit = (t_ray_hit){0};

@@ -1,9 +1,23 @@
-#include <time.h>
-#include "source/common.h"
-#include "core/enum.h"
-#include "core/const.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   common.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int common_kid(int keycode)
+#include "core/const.h"
+#include "core/enum.h"
+#include "libft.h"
+#include "source/common.h"
+#include <stddef.h>
+#include <sys/time.h>
+
+int	common_kid(int keycode)
 {
 	if (keycode == K_A)
 		return (GK_LEFT);
@@ -22,10 +36,18 @@ int common_kid(int keycode)
 	return (-1);
 }
 
-double common_now(void)
+double	common_now(void)
 {
-	struct timespec time;
+	struct timeval	time;
 
-	clock_gettime(CLOCK_MONOTONIC, &time);
-	return ((double)time.tv_sec + (double)time.tv_nsec / 1000000000.0);
+	if (gettimeofday(&time, NULL) != 0)
+		return (-1.0);
+	return ((double)time.tv_sec + (double)time.tv_usec / 1000000.0);
+}
+
+int	common_error(char *message)
+{
+	ft_putendl_fd("Error", 2);
+	ft_putendl_fd(message, 2);
+	return (1);
 }

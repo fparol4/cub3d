@@ -44,12 +44,12 @@ static int _player_move(t_game *g, double elapsed)
 		return (0);
 	fw /= ln;
 	st /= ln;
-	mx = (g->player.dir_x * fw - g->player.dir_y * st) * 2.5 * elapsed;
-	my = (g->player.dir_y * fw + g->player.dir_x * st) * 2.5 * elapsed;
+	mx = (g->player.dir_x * fw + g->player.dir_y * st) * 2.5 * elapsed;
+	my = (g->player.dir_y * fw - g->player.dir_x * st) * 2.5 * elapsed;
 	if (_player_pos_valid(g, g->player.pos_x + mx, g->player.pos_y))
 		g->player.pos_x += mx;
 	if (_player_pos_valid(g, g->player.pos_x, g->player.pos_y + my))
-		g->player.pos_x += my;
+		g->player.pos_y += my;
 	return (0);
 }
 
@@ -64,19 +64,19 @@ static void _player_rotate(t_player *p, double angle)
 	sn = sin(angle);
 	// direction
 	p->dir_x = p->dir_x * cs - p->dir_y * sn;
-	p->dir_y = ox * sn - p->dir_y * cs;
+	p->dir_y = ox * sn + p->dir_y * cs;
 	// plane
 	ox = p->plane_x;
 	p->plane_x = p->plane_x * cs - p->plane_y * sn;
-	p->plane_y = ox * sn - p->plane_y * cs;
+	p->plane_y = ox * sn + p->plane_y * cs;
 }
 
 int player_update(t_game *g, double elapsed)
 {
 	_player_move(g, elapsed);
 	if (g->keys[GK_ACLOCKWISE])
-		_player_rotate(&g->player, 1.8 * elapsed);
-	if (g->keys[GK_CLOCKWISE])
 		_player_rotate(&g->player, -1.8 * elapsed);
+	if (g->keys[GK_CLOCKWISE])
+		_player_rotate(&g->player, 1.8 * elapsed);
 	return (0);
 }

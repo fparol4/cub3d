@@ -6,7 +6,7 @@ int runtime_args(int argc, char **argv)
 	int l;
 	char *m;
 
-	m = "Usage: ./cub3d <map.cub>";
+	m = "Usage: ./cub3D <map.cub>";
 	if (argc != 2)
 		return (ft_putendl_fd(m, 2), 1);
 	l = ft_strlen(argv[1]);
@@ -44,7 +44,7 @@ int runtime_setup(t_game *g, char *map_path)
 
 int runtime_run(t_game *g)
 {
-	mlx_loop(g);
+	mlx_loop(g->mlx);
 	runtime_cleanup(g);
 	return (0);
 }

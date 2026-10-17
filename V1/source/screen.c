@@ -1,5 +1,6 @@
 
 #include "source/screen.h"
+#include "source/render.h"
 #include "libft.h"
 #include "shared/enum.h"
 

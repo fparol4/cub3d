@@ -1,6 +1,6 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef RAYCAST_H
+#define RAYCAST_H
 	#include "shared/struct.h"
 
-	int player_update(t_game *g, double elapsed);
+	int raycast_cast(t_game *g, t_raycast *ray);
 #endif

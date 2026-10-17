@@ -1,4 +1,4 @@
-NM = cub3D
+NAME = cub3D
 
 CC = cc
 CF = -Wall -Wextra -Werror
@@ -12,27 +12,38 @@ DIR_INC = header
 DIR_MLX = library/mlx
 DIR_LFT = library/libft
 
-SR = source/main.c
-OB = $(SR:.c=.o)
+SR = $(wildcard $(DIR_SRC)/*.c)
+OB = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SR))
+DEP = $(OB:.o=.d)
+MLX = $(DIR_MLX)/libmlx.a
+LIBFT = $(DIR_LFT)/libft.a
 
-all: $(NM)
+all: $(NAME)
 
-%.o: %.c
-	$(CC) $(CF) $(CI) -c $< -o $@
+$(NAME): $(LIBFT) $(MLX) $(OB)
+	$(CC) $(CF) $(OB) $(CL) $(CX) -o $(NAME)
 
-$(NM): $(OB)
-	$(CC) $(OB) $(CL) $(CX) -o $(NM)
+$(LIBFT):
+	$(MAKE) -C $(DIR_LFT)
+
+$(MLX):
+	$(MAKE) -C $(DIR_MLX)
+
+$(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CF) $(CI) -MMD -MP -c $< -o $@
 
 clean:
-	@rm -f $(OB) $(OB:.o=.d)
+	@rm -rf $(DIR_OBJ)
+	@$(MAKE) clean -C $(DIR_LFT)
+	@$(MAKE) clean -C $(DIR_MLX)
 
 fclean: clean
-	rm -f $(NM)
+	rm -f $(NAME)
+	@$(MAKE) fclean -C $(DIR_LFT)
 
 re: fclean all
 
-ex: all
-	./$(NM)
-	$(MAKE) fclean
+-include $(DEP)
 
-.PHONY: all clean fclean re ex
+.PHONY: all clean fclean re

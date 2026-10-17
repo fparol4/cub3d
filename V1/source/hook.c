@@ -10,8 +10,18 @@ int hook_press(int keycode, t_game *g)
 
 	if (keycode == K_ESC)
 		return runtime_close(g);
-	// implement K_W for changing map view if required
 	kid = common_kid(keycode);
+	if (kid == GK_VIEW)
+	{
+		if (g->keys[GK_VIEW])
+			return (0);
+		g->keys[GK_VIEW] = 1;
+		if (g->view == V_3D)
+			g->view = V_MINIMAP;
+		else
+			g->view = V_3D;
+		return (0);
+	}
 	if (kid >= 0 && kid < GK_COUNT)
 		g->keys[kid] = 1;
 	return (0);

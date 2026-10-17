@@ -1,8 +1,7 @@
-#include "shared/enum.h"
-#include "shared/struct.h"
 #include <math.h>
+#include "source/raycast.h"
 
-void raycast_setup(t_game *g, t_raycast *rc)
+static void raycast_setup(t_game *g, t_raycast *rc)
 {
 	rc->state.map_x = (int) floor (g->player.pos_x);
 	rc->state.map_y = (int) floor (g->player.pos_y);
@@ -28,7 +27,7 @@ void raycast_setup(t_game *g, t_raycast *rc)
 	}
 }
 
-void raycast_advance(t_raycast *rc)
+static void raycast_advance(t_raycast *rc)
 {
 	if (rc->state.side_x < rc->state.side_y)
 	{
@@ -46,7 +45,7 @@ void raycast_advance(t_raycast *rc)
 	}
 }
 
-int raycast_in_boundaries(t_game *g, t_raycast *rc)
+static int raycast_in_boundaries(t_game *g, t_raycast *rc)
 {
 	return (
 		rc->state.map_x >= 0 &&
@@ -56,7 +55,7 @@ int raycast_in_boundaries(t_game *g, t_raycast *rc)
 	);
 }
 
-int raycast_is_hit(t_game *g, t_raycast *rc)
+static int raycast_is_hit(t_game *g, t_raycast *rc)
 {
 	if (g->map.grid[rc->state.map_y][rc->state.map_x] == T_FLOOR)
 		return (0);
@@ -74,6 +73,7 @@ int raycast_cast(t_game *g, t_raycast *rc)
 	int steps;
 
 	steps = 0;
+	rc->hit = (t_ray_hit){0};
 	raycast_setup(g, rc);
 	while (steps++ < g->map.width + g->map.height)
 	{

@@ -16,10 +16,10 @@ int setup_mlx(t_game *g)
 
 int setup_hook(t_game *g)
 {
-	mlx_hook(g->win, EVT_KEY_PRESS, 0, hook_press, g);
-	mlx_hook(g->win, EVT_KEY_RELEASE, 0, hook_release, g);
-	mlx_hook(g->win, EVT_FOCUS_OUT, 0, hook_out, g);
-	mlx_hook(g->win, EVT_EXIT, 0, runtime_close, g);
+	mlx_hook(g->win, EVT_KEY_PRESS, MASK_KEY_PRESS, hook_press, g);
+	mlx_hook(g->win, EVT_KEY_RELEASE, MASK_KEY_RELEASE, hook_release, g);
+	mlx_hook(g->win, EVT_FOCUS_OUT, MASK_FOCUS_CHANGE, hook_out, g);
+	mlx_hook(g->win, EVT_EXIT, MASK_STRUCTURE_NOTIFY, runtime_close, g);
 	mlx_loop_hook(g->mlx, game_frame, g);
 	return (0);
 }
@@ -50,10 +50,10 @@ int setup_frame(t_game *g)
 int setup_game(t_game *g)
 {
 	if (setup_mlx(g))
-		return (runtime_cleanup(g), 1);
+		return (1);
 	if (setup_hook(g))
-		return (runtime_cleanup(g), 1);
+		return (1);
 	if (setup_frame(g))
-		return (runtime_cleanup(g), 1);
+		return (1);
 	return (0);
 }

@@ -2,6 +2,6 @@
 #define COMMON_H
 	#include "shared/cub3d.h"
 
-	int common_now();
+	double common_now(void);
 	int common_kid(int keycode);
 #endif

@@ -4,13 +4,20 @@
 
   #define S_WIDTH 1024
   #define S_HEIGHT 768
-  #define S_TILE 128
+  #define S_TILE 96
   #define S_PLAYER 24
+  #define PLAYER_MAX_ELAPSED 0.05
+  #define RENDER_FOV_RAYS 41
+  #define RENDER_MIN_DISTANCE 0.05
 
   #define EVT_EXIT 17
   #define EVT_KEY_PRESS 2
   #define EVT_KEY_RELEASE 3
   #define EVT_FOCUS_OUT 10
+  #define MASK_KEY_PRESS (1L << 0)
+  #define MASK_KEY_RELEASE (1L << 1)
+  #define MASK_STRUCTURE_NOTIFY (1L << 17)
+  #define MASK_FOCUS_CHANGE (1L << 21)
 
   #define COLOR_WALL    0x00808080
   #define COLOR_FLOOR   0x00202020
@@ -18,6 +25,7 @@
   #define COLOR_WALL_3D 0x00A0A0A0
   #define COLOR_WALL_DARK 0x00686868
   #define COLOR_PLAYER  0x0000FF00
+  #define COLOR_FOV     0x00D09020
 
   #define K_W 119
   #define K_A 97

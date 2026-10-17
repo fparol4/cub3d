@@ -1,3 +1,4 @@
+#include "shared/const.h"
 #include "shared/struct.h"
 #include "source/common.h"
 #include "source/screen.h"
@@ -7,8 +8,8 @@ static void _game_capframe(double *elapsed)
 {
 	if (*elapsed < 0.0)
 		*elapsed = 0;
-	if (*elapsed > 0.05)
-		*elapsed = 0.05;
+	if (*elapsed > PLAYER_MAX_ELAPSED)
+		*elapsed = PLAYER_MAX_ELAPSED;
 }
 
 int game_frame(t_game *g)
@@ -17,7 +18,11 @@ int game_frame(t_game *g)
 	double elapsed;
 
 	now = common_now();
-	elapsed = now - g->last_frame;
+	if (g->last_frame == 0.0)
+		elapsed = 0.0;
+	else
+		elapsed = now - g->last_frame;
+	g->last_frame = now;
 	_game_capframe(&elapsed);
 	player_update(g, elapsed);
 	screen_clear(g);

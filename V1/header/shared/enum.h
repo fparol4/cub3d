@@ -3,8 +3,8 @@
 
   typedef enum e_tile
   {
-    T_FLOOR = 0,
-    T_WALL = 1
+    T_FLOOR = '0',
+    T_WALL = '1'
   } t_tile;
 
   // GAME-KEY

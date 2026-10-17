@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <sys/time.h>
+#include <time.h>
 #include "shared/enum.h"
 #include "shared/const.h"
 
@@ -22,10 +22,10 @@ int common_kid(int keycode)
 	return (-1);
 }
 
-int common_now()
+double common_now(void)
 {
-	struct timeval time;
+	struct timespec time;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec + time.tv_usec / 1e6);
+	clock_gettime(CLOCK_MONOTONIC, &time);
+	return ((double)time.tv_sec + (double)time.tv_nsec / 1000000000.0);
 }

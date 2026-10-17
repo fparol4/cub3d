@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:05 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:05 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define FT_ARRAY_DEFAULT_CAP 32
 
-static int	ft_array_grow(t_array *array)
+static int	_array_grow(t_array *array)
 {
 	void	*next;
 	size_t	capacity;
@@ -40,11 +40,6 @@ static int	ft_array_grow(t_array *array)
 	return (0);
 }
 
-static uintptr_t	_array_pointer_value(void *pointer)
-{
-	return ((uintptr_t)pointer);
-}
-
 static int	_array_stage(t_array *array, void **elem, int grow, void **copy)
 {
 	size_t		used;
@@ -57,8 +52,8 @@ static int	_array_stage(t_array *array, void **elem, int grow, void **copy)
 	if (array->length > SIZE_MAX / array->elem_size)
 		return (1);
 	used = array->length * array->elem_size;
-	source = _array_pointer_value(*elem);
-	start = _array_pointer_value(array->items);
+	source = (uintptr_t)(*elem);
+	start = (uintptr_t)array->items;
 	if (source < start || source - start >= used)
 		return (0);
 	*copy = malloc(array->elem_size);
@@ -80,11 +75,8 @@ void	*ft_array_append(t_array *array, void *elem)
 	grow = (!array->capacity || array->length >= array->capacity);
 	if (_array_stage(array, &elem, grow, &copy))
 		return (NULL);
-	if (grow)
-	{
-		if (ft_array_grow(array))
-			return (free(copy), NULL);
-	}
+	if (grow && _array_grow(array))
+		return (free(copy), NULL);
 	slot = (char *)array->items + (array->length * array->elem_size);
 	if (elem)
 		ft_memmove(slot, elem, array->elem_size);

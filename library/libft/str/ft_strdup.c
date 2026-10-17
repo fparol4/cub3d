@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:19 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:07 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:07 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*ft_strdup(const char *s1)
 {
-	size_t	i;
 	size_t	len;
 	char	*copy;
 
@@ -22,12 +21,6 @@ char	*ft_strdup(const char *s1)
 	copy = (char *)malloc(len + 1);
 	if (!copy)
 		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		copy[i] = s1[i];
-		i++;
-	}
-	copy[i] = '\0';
+	ft_memcpy(copy, s1, len + 1);
 	return (copy);
 }

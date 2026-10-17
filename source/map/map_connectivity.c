@@ -33,13 +33,10 @@ static int	_map_flood_add(t_map_flood *flood, int x, int y)
 
 static int	_map_flood_neighbours(t_map_flood *flood, t_point point)
 {
-	if (!_map_flood_add(flood, point.x - 1, point.y))
-		return (0);
-	if (!_map_flood_add(flood, point.x + 1, point.y))
-		return (0);
-	if (!_map_flood_add(flood, point.x, point.y - 1))
-		return (0);
-	return (_map_flood_add(flood, point.x, point.y + 1));
+	return (_map_flood_add(flood, point.x - 1, point.y)
+		&& _map_flood_add(flood, point.x + 1, point.y)
+		&& _map_flood_add(flood, point.x, point.y - 1)
+		&& _map_flood_add(flood, point.x, point.y + 1));
 }
 
 static int	_map_flood_init(t_map_flood *flood, t_map_data *data)

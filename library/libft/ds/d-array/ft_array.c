@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:17 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:17 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:05 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:05 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
-
-#define FT_ARRAY_DEFAULT_CAP 32
 
 int	ft_array_init(t_array *array, size_t elem_size)
 {
@@ -30,10 +28,7 @@ void	ft_array_free(t_array *array)
 	if (!array)
 		return ;
 	free(array->items);
-	array->items = NULL;
-	array->length = 0;
-	array->capacity = 0;
-	array->elem_size = 0;
+	*array = (t_array){0};
 }
 
 void	*ft_array_get(t_array *array, size_t index)

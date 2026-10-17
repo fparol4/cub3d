@@ -125,6 +125,7 @@ typedef struct s_game
 	// STATE
 	int			status;
 	t_view		view;
+	int			dirty;
 	double		last_frame;
 	int			keys[GK_COUNT];
 }				t_game;

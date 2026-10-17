@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:17 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:17 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ int	ft_lstsize(t_list *lst)
 {
 	int	length;
 
-	if (!lst)
-		return (0);
-	length = 1;
-	while (lst->next != 0)
+	length = 0;
+	while (lst)
 	{
 		lst = lst->next;
 		length++;

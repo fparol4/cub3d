@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:19 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:07 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:07 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	if (*needle == '\0')
 		return ((char *)haystack);
 	i = 0;
-	while (haystack[i] && i < len)
+	while (i < len && haystack[i])
 	{
 		j = 0;
-		while (haystack[i + j] == needle[j] && (i + j) < len)
+		while (j < len - i && haystack[i + j] == needle[j])
 		{
 			if (!needle[j + 1])
 				return ((char *)&haystack[i]);

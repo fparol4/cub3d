@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <limits.h>
 #include <stdarg.h>
 
-static int	_fn_handle(char symbol, va_list *params)
+static int	_printf_handle(char symbol, va_list *params)
 {
 	char	*string;
 
@@ -42,15 +42,14 @@ static int	_fn_handle(char symbol, va_list *params)
 	return (0);
 }
 
-static int	_printf_write_one(const char *format, int *index,
-					va_list *params)
+static int	_printf_write_one(const char *format, int *index, va_list *params)
 {
 	int	written;
 
-	if (format[*index] == '%' && format[*index + 1]
-		&& ft_strchr("cspdiuxX%", format[*index + 1]))
+	if (format[*index] == '%' && format[*index + 1] && ft_strchr("cspdiuxX%",
+			format[*index + 1]))
 	{
-		written = _fn_handle(format[*index + 1], params);
+		written = _printf_handle(format[*index + 1], params);
 		*index += 2;
 		return (written);
 	}

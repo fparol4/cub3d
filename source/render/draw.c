@@ -32,12 +32,13 @@ static void	_render_line_step(t_point *p, t_line *line)
 
 void	render_px(t_img *img, t_point p, int color)
 {
-	char	*dst;
+	unsigned int	*dst;
 
 	if (p.x < 0 || p.x >= img->width || p.y < 0 || p.y >= img->height)
 		return ;
-	dst = img->addr + p.y * img->llen + p.x * (img->bpp / 8);
-	ft_memcpy(dst, &color, sizeof(color));
+	dst = (unsigned int *)(img->addr + p.y * img->llen
+			+ p.x * (img->bpp / 8));
+	*dst = (unsigned int)color;
 }
 
 void	render_line(t_img *img, t_point from, t_point to, int color)

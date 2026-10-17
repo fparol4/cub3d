@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:20 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:20 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ char					*ft_strmapi(char const *s, char (*f)(unsigned int,
 void					ft_striteri(char *s, void (*f)(unsigned int, char *));
 size_t					ft_strlen(const char *s);
 char					*ft_strcat(char *dst, const char *src);
-char					*ft_padstart(
-							const char *str, size_t max_size, char placeholder);
+char					*ft_padstart(const char *str, size_t max_size,
+							char placeholder);
 size_t					ft_strlcpy(char *dst, const char *src, size_t n);
 size_t					ft_strlcat(char *dst, const char *src, size_t n);
 

@@ -17,5 +17,4 @@
 int		texture_load(t_game *g);
 void	texture_cleanup(t_game *g);
 t_img	*texture_face(t_game *g, t_raycast *rc);
-int		texture_pixel(t_img *img, int x, int y);
 #endif

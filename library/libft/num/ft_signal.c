@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include "../libft.h"
+#include <limits.h>
 
 int	ft_abs(int v)
 {

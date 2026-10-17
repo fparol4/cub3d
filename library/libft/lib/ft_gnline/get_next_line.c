@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "../../libft.h"
+#include "get_next_line.h"
 #include <errno.h>
 
 static t_gnl_state	*g_gnl_states;
@@ -76,7 +76,7 @@ static char	*_gnl_finish(t_gnl_state **states, t_gnl_state *state, int status)
 	size_t	line_size;
 
 	if (!status && !state->length)
-		return (NULL);
+		return (gnl_remove(states, state->fd), NULL);
 	line_size = gnl_line_size(state);
 	if (!line_size)
 		line_size = state->length;

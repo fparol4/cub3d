@@ -54,7 +54,6 @@ static int	_map_parse_rgb(const char *value, int *red, int *green, int *blue)
 		return (0);
 	if (!_map_parse_component(&value, blue))
 		return (0);
-	_map_skip_space(&value);
 	return (*value == '\0');
 }
 

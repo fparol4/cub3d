@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:17 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:17 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:05 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:05 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-static void	ft_dlist_reindex(t_dlist_node *node)
+static void	_dlist_reindex(t_dlist_node *node)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ void	ft_dlist_rot(t_dlist *list)
 	list->tail = list->tail->next;
 	list->head->previous = NULL;
 	list->tail->next = NULL;
-	ft_dlist_reindex(list->head);
+	_dlist_reindex(list->head);
 }
 
 void	ft_dlist_revrot(t_dlist *list)
@@ -47,7 +47,7 @@ void	ft_dlist_revrot(t_dlist *list)
 	list->head = list->head->previous;
 	list->tail->next = NULL;
 	list->head->previous = NULL;
-	ft_dlist_reindex(list->head);
+	_dlist_reindex(list->head);
 }
 
 void	ft_dlist_swap(t_dlist *list)

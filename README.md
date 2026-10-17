@@ -6,7 +6,7 @@
 
 cub3D is a C project that renders a first-person view of a maze with miniLibX. It uses a grid-based raycasting technique: one ray is cast for each screen column, the first wall hit is found with the Digital Differential Analyzer (DDA) algorithm, and a directional texture is drawn on that wall. The scene also has ceiling and floor colors.
 
-The current codebase is a development version. It uses a fixed map, player position, colors, and texture paths in the code. The `.cub` argument is checked for its extension but its contents are not parsed, so this version does not yet meet the mandatory scene-file parsing requirements of the subject.
+The program loads its map, player position and orientation, wall texture paths, and floor/ceiling colors from the supplied `.cub` file. The parser checks required settings, RGB ranges, map characters, exactly one player, wall enclosure, and connectivity of walkable cells. Short map rows are padded with spaces before validation.
 
 The current build includes wall collision and a minimap. The minimap is shown in the top-right corner of the 3D view and can be expanded to fill the window.
 
@@ -24,9 +24,13 @@ Run the program from the repository root:
 ./cub3D maps/001.cub
 ```
 
-The program currently renders its fixed development scene regardless of the contents of the supplied `.cub` file. Use W, A, S, or D to move, the left and right arrow keys to turn, and M to switch between the 3D view and the full-window map. Press Escape or close the window to quit.
+Use W/S (or the up/down arrow keys) to move forward/backward, A/D to strafe, the left/right arrow keys to turn, and M to switch between the 3D view and the full-window map. Press Escape or close the window to quit. The `maps/` directory contains four example scenes; their texture paths are relative to the working directory.
+
+Each scene declares `NO`, `SO`, `WE`, and `EA` texture paths and `F`/`C` RGB colors before the map. Map cells use `1` for walls, `0` for floor, and one `N`, `S`, `E`, or `W` for the player spawn. Errors are reported to standard error with an `Error` line.
 
 The Makefile provides `all`, `bonus`, `clean`, `fclean`, and `re` rules. The `bonus` rule currently builds the same program as `all`.
+
+Runtime components live directly in `source/`; the map parser and renderer have their own `source/map/` and `source/render/` folders. Shared types and constants live in `header/core/`, and component interfaces live in `header/source/`. File-local helpers use `_module_action` names and appear before public functions. Rendering writes to the image buffer and redraws the scene and minimap when the player/view changes or the window needs refreshing.
 
 ## Resources
 

@@ -17,12 +17,42 @@
 #include "source/runtime.h"
 #include "source/screen.h"
 
-static void	_game_capframe(double *elapsed)
+static int	_game_has_motion(t_game *g)
 {
-	if (*elapsed < 0.0)
-		*elapsed = 0;
-	if (*elapsed > PLAYER_MAX_ELAPSED)
-		*elapsed = PLAYER_MAX_ELAPSED;
+	return (g->keys[GK_FORWARD] || g->keys[GK_BACKWARD]
+		|| g->keys[GK_LEFT] || g->keys[GK_RIGHT]
+		|| g->keys[GK_CLOCKWISE] || g->keys[GK_ACLOCKWISE]);
+}
+
+static int	_game_player_changed(t_player *old, t_player *current)
+{
+	return (old->pos_x != current->pos_x || old->pos_y != current->pos_y
+		|| old->dir_x != current->dir_x || old->dir_y != current->dir_y
+		|| old->plane_x != current->plane_x
+		|| old->plane_y != current->plane_y);
+}
+
+static void	_game_update_player(t_game *g, double elapsed)
+{
+	t_player	previous;
+
+	previous = g->player;
+	player_update(g, elapsed);
+	if (_game_player_changed(&previous, &g->player))
+		g->dirty = 1;
+}
+
+static int	_game_render(t_game *g)
+{
+	if (!g->dirty)
+		return (0);
+	if (screen_clear(g) || screen_render(g))
+	{
+		g->status = common_error("Cannot render frame");
+		return (runtime_close(g));
+	}
+	g->dirty = 0;
+	return (0);
 }
 
 int	game_frame(t_game *g)
@@ -30,6 +60,8 @@ int	game_frame(t_game *g)
 	double	now;
 	double	elapsed;
 
+	if (!g->dirty && !_game_has_motion(g))
+		return (0);
 	now = common_now();
 	if (now < 0.0)
 	{
@@ -41,12 +73,11 @@ int	game_frame(t_game *g)
 	else
 		elapsed = now - g->last_frame;
 	g->last_frame = now;
-	_game_capframe(&elapsed);
-	player_update(g, elapsed);
-	if (screen_clear(g) || screen_render(g))
-	{
-		g->status = common_error("Cannot render frame");
-		return (runtime_close(g));
-	}
-	return (0);
+	if (elapsed < 0.0)
+		elapsed = 0.0;
+	if (elapsed > PLAYER_MAX_ELAPSED)
+		elapsed = PLAYER_MAX_ELAPSED;
+	if (_game_has_motion(g))
+		_game_update_player(g, elapsed);
+	return (_game_render(g));
 }

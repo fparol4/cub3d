@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "mlx.h"
 #include "source/common.h"
 #include "source/texture.h"
@@ -61,14 +60,4 @@ t_img	*texture_face(t_game *g, t_raycast *rc)
 	if (rc->ray_y > 0)
 		return (&g->texture[TEX_NO]);
 	return (&g->texture[TEX_SO]);
-}
-
-int	texture_pixel(t_img *img, int x, int y)
-{
-	int	color;
-
-	color = 0;
-	ft_memcpy(&color, img->addr + y * img->llen + x * (img->bpp / 8),
-		sizeof(color));
-	return (color);
 }

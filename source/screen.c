@@ -41,6 +41,7 @@ void	screen_toggle_view(t_game *g)
 		g->view = V_MINIMAP;
 	else
 		g->view = V_3D;
+	g->dirty = 1;
 }
 
 int	screen_clear(t_game *g)

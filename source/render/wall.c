@@ -18,18 +18,19 @@
 
 static void	_render_background(t_game *g, int x)
 {
-	t_point	p;
+	char	*dst;
+	int		y;
 	int		color;
 
-	p.x = x;
-	p.y = 0;
-	while (p.y < g->frame.height)
+	dst = g->frame.addr + x * (g->frame.bpp / 8);
+	y = 0;
+	while (y < g->frame.height)
 	{
 		color = g->map.color_floor;
-		if (p.y < g->frame.height / 2)
+		if (y < g->frame.height / 2)
 			color = g->map.color_ceiling;
-		render_px(&g->frame, p, color);
-		p.y++;
+		*(unsigned int *)(dst + y * g->frame.llen) = (unsigned int)color;
+		y++;
 	}
 }
 
@@ -56,19 +57,21 @@ static void	_render_column_setup(t_game *g, t_raycast *rc, t_column *col)
 
 static void	_render_wall(t_game *g, int x, t_column *col)
 {
-	t_point	p;
+	char	*dst;
+	char	*src;
+	int		y;
 	int		tex_y;
-	int		color;
 
-	p.x = x;
-	p.y = col->start;
-	while (p.y < col->end)
+	dst = g->frame.addr + x * (g->frame.bpp / 8);
+	src = col->texture->addr + col->tex_x * (col->texture->bpp / 8);
+	y = col->start;
+	while (y < col->end)
 	{
-		tex_y = (int)((double)(p.y - col->top) * col->texture->height
+		tex_y = (int)((double)(y - col->top) * col->texture->height
 				/ col->height);
-		color = texture_pixel(col->texture, col->tex_x, tex_y);
-		render_px(&g->frame, p, color);
-		p.y++;
+		*(unsigned int *)(dst + y * g->frame.llen) = *(unsigned int *)
+			(src + tex_y * col->texture->llen);
+		y++;
 	}
 }
 
@@ -96,5 +99,8 @@ void	render_3d(t_game *g)
 
 	x = 0;
 	while (x < g->frame.width)
-		_render_3d_column(g, x++);
+	{
+		_render_3d_column(g, x);
+		x++;
+	}
 }

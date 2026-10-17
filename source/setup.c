@@ -20,7 +20,7 @@
 #include "source/setup.h"
 #include "source/texture.h"
 
-int	setup_mlx(t_game *g)
+static int	_setup_mlx(t_game *g)
 {
 	g->mlx = mlx_init();
 	if (!g->mlx)
@@ -31,16 +31,17 @@ int	setup_mlx(t_game *g)
 	return (0);
 }
 
-void	setup_hook(t_game *g)
+static void	_setup_hook(t_game *g)
 {
 	mlx_hook(g->win, EVT_KEY_PRESS, MASK_KEY_PRESS, hook_press, g);
 	mlx_hook(g->win, EVT_KEY_RELEASE, MASK_KEY_RELEASE, hook_release, g);
 	mlx_hook(g->win, EVT_FOCUS_OUT, MASK_FOCUS_CHANGE, hook_out, g);
+	mlx_hook(g->win, EVT_EXPOSE, MASK_EXPOSURE, hook_expose, g);
 	mlx_hook(g->win, EVT_EXIT, MASK_STRUCTURE_NOTIFY, runtime_close, g);
 	mlx_loop_hook(g->mlx, game_frame, g);
 }
 
-int	setup_frame(t_game *g)
+static int	_setup_frame(t_game *g)
 {
 	g->frame.width = S_WIDTH;
 	g->frame.height = S_HEIGHT;
@@ -57,12 +58,8 @@ int	setup_frame(t_game *g)
 
 int	setup_game(t_game *g)
 {
-	if (setup_mlx(g))
+	if (_setup_mlx(g) || texture_load(g) || _setup_frame(g))
 		return (1);
-	if (texture_load(g))
-		return (1);
-	if (setup_frame(g))
-		return (1);
-	setup_hook(g);
+	_setup_hook(g);
 	return (0);
 }

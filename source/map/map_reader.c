@@ -18,11 +18,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static char	*_map_trim_copy(const char *line)
-{
-	return (ft_strtrim(line, " \t\r\n"));
-}
-
 static int	_map_is_start(const char *line)
 {
 	if ((line[0] == 'N' && line[1] == 'O')
@@ -30,28 +25,44 @@ static int	_map_is_start(const char *line)
 		|| (line[0] == 'W' && line[1] == 'E')
 		|| (line[0] == 'E' && line[1] == 'A'))
 		return (0);
-	return (line && (*line == '0' || *line == '1' || *line == 'N'
-			|| *line == 'S' || *line == 'E' || *line == 'W'));
+	return (*line == T_WALL || map_is_walkable(*line));
+}
+
+static char	**_map_resize_grid(t_map_data *data)
+{
+	char	**grid;
+	size_t	count;
+
+	count = (size_t)data->map.height + 2;
+	grid = malloc(sizeof(*grid) * count);
+	if (!grid)
+		return (NULL);
+	if (data->map.grid)
+		ft_memcpy(grid, data->map.grid,
+			((size_t)data->map.height + 1) * sizeof(*grid));
+	free(data->map.grid);
+	return (grid);
 }
 
 static int	_map_append_line(t_map_data *data, char *line)
 {
 	char	**grid;
+	size_t	length;
 
+	length = ft_strlen(line);
 	if (data->map.height < 0 || data->map.height == INT_MAX
 		|| (size_t)data->map.height > SIZE_MAX / sizeof(char *) - 2)
 		return (0);
-	if (ft_strlen(line) > INT_MAX)
+	if (length > INT_MAX)
 		return (0);
-	grid = realloc(data->map.grid,
-			sizeof(char *) * ((size_t)data->map.height + 2));
+	grid = _map_resize_grid(data);
 	if (!grid)
 		return (0);
 	data->map.grid = grid;
 	data->map.grid[data->map.height++] = line;
 	data->map.grid[data->map.height] = NULL;
-	if ((int)ft_strlen(line) > data->map.width)
-		data->map.width = (int)ft_strlen(line);
+	if ((int)length > data->map.width)
+		data->map.width = (int)length;
 	return (1);
 }
 
@@ -60,7 +71,7 @@ static int	_map_process_line(t_map_data *data, char *line)
 	char	*trimmed;
 	size_t	length;
 
-	trimmed = _map_trim_copy(line);
+	trimmed = ft_strtrim(line, " \t\r\n");
 	if (!trimmed)
 		return (free(line), 0);
 	if (!data->map_started && !*trimmed)

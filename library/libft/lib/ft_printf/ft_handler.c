@@ -5,17 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft.h"
+#include "ft_printf.h"
 #include <stdint.h>
 
-static int	_print_owned(char *str)
+static int	_printf_print_owned(char *str)
 {
-	ssize_t		written;
+	ssize_t	written;
 
 	if (!str)
 		return (-1);
@@ -33,7 +33,7 @@ int	ft_handle_int(int value)
 
 	b_dec = "0123456789";
 	v_str = ft_itoab(value, b_dec);
-	return (_print_owned(v_str));
+	return (_printf_print_owned(v_str));
 }
 
 int	ft_handle_unsigned(unsigned int value)
@@ -43,7 +43,7 @@ int	ft_handle_unsigned(unsigned int value)
 
 	b_dec = "0123456789";
 	v_str = ft_itoab_uns(value, b_dec);
-	return (_print_owned(v_str));
+	return (_printf_print_owned(v_str));
 }
 
 int	ft_handle_hex(unsigned int v, int upper)
@@ -55,14 +55,14 @@ int	ft_handle_hex(unsigned int v, int upper)
 	if (upper)
 		b_hex = "0123456789ABCDEF";
 	v_str = ft_itoab_uns(v, b_hex);
-	return (_print_owned(v_str));
+	return (_printf_print_owned(v_str));
 }
 
 int	ft_handle_ptr(void *pointer)
 {
-	char		*b_hex;
-	char		*v_str;
-	ssize_t		written;
+	char	*b_hex;
+	char	*v_str;
+	ssize_t	written;
 
 	b_hex = "0123456789abcdef";
 	v_str = ft_itoab_uns((size_t)(uintptr_t)pointer, b_hex);

@@ -60,9 +60,8 @@ typedef enum e_cub_field
 	CUB_WE = 1u << 2,
 	CUB_EA = 1u << 3,
 	CUB_FL = 1u << 4,
-	CUB_CL = 1u << 5
+	CUB_CL = 1u << 5,
+	CUB_REQ_FIELDS = CUB_NO | CUB_SO | CUB_WE | CUB_EA | CUB_FL | CUB_CL
 }	t_cub_field;
-
-# define CUB_REQ_FIELDS 63
 
 #endif

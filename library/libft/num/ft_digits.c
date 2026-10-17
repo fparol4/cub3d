@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ size_t	ft_digits(size_t v, int size)
 
 	if (size < 2)
 		return (0);
-	if (v == 0)
-		return (1);
-	digits = 0;
-	while (v != 0)
+	digits = 1;
+	while (v >= (size_t)size)
 	{
-		v = v / (size_t)size;
+		v /= (size_t)size;
 		digits++;
 	}
 	return (digits);

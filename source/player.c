@@ -49,7 +49,7 @@ static void	_player_move(t_game *g, double elapsed)
 
 	fw = g->keys[GK_FORWARD] - g->keys[GK_BACKWARD];
 	st = g->keys[GK_LEFT] - g->keys[GK_RIGHT];
-	ln = sqrt(pow(fw, 2) + pow(st, 2));
+	ln = sqrt(fw * fw + st * st);
 	if (ln == 0.0)
 		return ;
 	fw /= ln;

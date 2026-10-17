@@ -21,15 +21,15 @@
 
 int	runtime_args(int argc, char **argv)
 {
-	int		l;
-	char	*m;
+	size_t	length;
+	char	*message;
 
-	m = "Usage: ./cub3D <map.cub>";
+	message = "Usage: ./cub3D <map.cub>";
 	if (argc != 2)
-		return (common_error(m));
-	l = ft_strlen(argv[1]);
-	if (l < 4 || ft_strcmp((argv[1] + l - 4), ".cub"))
-		return (common_error(m));
+		return (common_error(message));
+	length = ft_strlen(argv[1]);
+	if (length < 4 || ft_strcmp(argv[1] + length - 4, ".cub"))
+		return (common_error(message));
 	return (0);
 }
 
@@ -54,10 +54,9 @@ void	runtime_cleanup(t_game *g)
 int	runtime_setup(t_game *g, char *map_path)
 {
 	*g = (t_game){0};
-	if (map_parse(g, map_path))
+	if (map_parse(g, map_path) || setup_game(g))
 		return (runtime_cleanup(g), 1);
-	if (setup_game(g))
-		return (runtime_cleanup(g), 1);
+	g->dirty = 1;
 	return (0);
 }
 

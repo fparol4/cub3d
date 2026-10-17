@@ -46,15 +46,6 @@ static void	_map_transfer(t_game *g, t_map_data *data)
 	_map_apply_player(g, data);
 }
 
-static int	_map_parse_data(t_map_data *data, const char *path)
-{
-	if (!map_read_archive(data, path))
-		return (0);
-	if (!map_validate(data))
-		return (0);
-	return (1);
-}
-
 void	map_cleanup(t_map *map)
 {
 	int	y;
@@ -79,9 +70,8 @@ int	map_parse(t_game *g, char *map_path)
 	if (!g || !map_path)
 		return (common_error("Invalid map file"));
 	data = (t_map_data){0};
-	if (!_map_parse_data(&data, map_path))
+	if (!map_read_archive(&data, map_path) || !map_validate(&data))
 		return (map_cleanup(&data.map), common_error("Invalid map file"));
 	_map_transfer(g, &data);
-	map_cleanup(&data.map);
 	return (0);
 }

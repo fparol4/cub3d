@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:14:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "../../libft.h"
+#include "get_next_line.h"
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -47,8 +47,7 @@ int	gnl_append(t_gnl_state *state, const char *chunk, size_t size)
 {
 	if (size > SIZE_MAX - state->length - 1)
 		return (1);
-	if (state->length + size > state->capacity
-		&& _gnl_reserve(state, size))
+	if (state->length + size > state->capacity && _gnl_reserve(state, size))
 		return (1);
 	ft_memcpy(state->data + state->length, chunk, size);
 	state->length += size;

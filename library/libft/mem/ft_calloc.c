@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:18 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:18 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:06 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:06 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	size_t	i;
 	size_t	total;
 	void	*ptr;
 
@@ -24,11 +23,6 @@ void	*ft_calloc(size_t count, size_t size)
 	ptr = malloc(total);
 	if (!ptr)
 		return (0);
-	i = 0;
-	while (i < total)
-	{
-		((unsigned char *)ptr)[i] = 0;
-		i++;
-	}
+	ft_bzero(ptr, total);
 	return (ptr);
 }

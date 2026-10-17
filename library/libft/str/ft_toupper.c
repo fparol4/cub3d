@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:19 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:07 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:07 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int	ft_toupper(int c)
 {
-	int	k;
-
-	k = ('a' - 'A');
 	if (c >= 'a' && c <= 'z')
-		return (c - k);
+		return (c - ('a' - 'A'));
 	return (c);
 }

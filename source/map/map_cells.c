@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "core/enum.h"
-#include "libft.h"
 #include "source/map.h"
 
 int	map_is_player(char cell)
@@ -24,12 +23,11 @@ int	map_is_walkable(char cell)
 	return (cell == T_FLOOR || map_is_player(cell));
 }
 
+/* The reader pads every row to map.width before validation uses this helper. */
 char	map_cell_at(t_map_data *data, int x, int y)
 {
 	if (!data || !data->map.grid || x < 0 || y < 0 || x >= data->map.width
 		|| y >= data->map.height)
-		return (' ');
-	if (x >= (int)ft_strlen(data->map.grid[y]))
 		return (' ');
 	return (data->map.grid[y][x]);
 }

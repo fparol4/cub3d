@@ -5,23 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:19 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/10/17 17:31:07 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/10/17 17:31:07 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
+
 int	ft_streq(const char *a, const char *b)
 {
-	int	i;
-
-	i = 0;
-	if (!a || !b)
-		return (0);
-	while (a[i] || b[i])
-	{
-		if (a[i] != b[i])
-			return (0);
-		i++;
-	}
-	return (1);
+	return (a && b && ft_strcmp(a, b) == 0);
 }

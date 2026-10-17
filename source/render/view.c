@@ -55,7 +55,6 @@ static void	_render_player(t_game *g, t_viewport *v)
 	t_point	center;
 	t_point	from;
 	t_point	to;
-	t_point	heading;
 	int		size;
 
 	center = render_map_point(g, v, g->player.pos_x, g->player.pos_y);
@@ -68,9 +67,6 @@ static void	_render_player(t_game *g, t_viewport *v)
 	from = (t_point){center.x - size / 2, center.y - size / 2};
 	to = (t_point){from.x + size, from.y + size};
 	render_rect(&g->frame, from, to, COLOR_PLAYER);
-	heading = render_map_point(g, v, g->player.pos_x + g->player.dir_x * 0.7,
-			g->player.pos_y + g->player.dir_y * 0.7);
-	render_line(&g->frame, center, heading, COLOR_PLAYER);
 }
 
 void	render_map_view(t_game *g, t_viewport *v)

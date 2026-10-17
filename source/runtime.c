@@ -55,8 +55,7 @@ int	runtime_setup(t_game *g, char *map_path)
 {
 	*g = (t_game){0};
 	if (map_parse(g, map_path))
-		return (common_error("Cannot initialize development map"),
-			runtime_cleanup(g), 1);
+		return (runtime_cleanup(g), 1);
 	if (setup_game(g))
 		return (runtime_cleanup(g), 1);
 	return (0);

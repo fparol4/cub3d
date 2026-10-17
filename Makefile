@@ -12,7 +12,7 @@ DIR_INC = header
 DIR_MLX = library/mlx
 DIR_LFT = library/libft
 
-SR = $(wildcard $(DIR_SRC)/*.c $(DIR_SRC)/render/*.c)
+SR = $(wildcard $(DIR_SRC)/*.c $(DIR_SRC)/map/*.c $(DIR_SRC)/render/*.c)
 OB = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SR))
 DEP = $(OB:.o=.d)
 MLX = $(DIR_MLX)/libmlx.a

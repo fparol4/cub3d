@@ -4,7 +4,7 @@
 
 ## Description
 
-cub3D is a C project that renders a first-person view of a maze with miniLibX. It uses a grid-based raycasting technique: one ray is cast for each screen column, the first wall hit is found with the Digital Differential Analyzer (DDA) algorithm, and a directional texture is drawn on that wall. The scene also has ceiling and floor colors.
+cub3D is a C project that renders a first-person view of a maze with miniLibX. It uses a grid-based raycasting technique: a configurable number of rays is cast across the screen, the first wall hit is found with the Digital Differential Analyzer (DDA) algorithm, and a directional texture is drawn on that wall. The scene also has ceiling and floor colors.
 
 The program loads its map, player position and orientation, wall texture paths, and floor/ceiling colors from the supplied `.cub` file. The parser checks required settings, RGB ranges, map characters, exactly one player, wall enclosure, and connectivity of walkable cells. Short map rows are padded with spaces before validation.
 
@@ -21,7 +21,7 @@ make
 Run the program from the repository root:
 
 ```sh
-./cub3D maps/001.cub
+./cub3d maps/001.cub
 ```
 
 Use W/S (or the up/down arrow keys) to move forward/backward, A/D to strafe, the left/right arrow keys to turn, and M to switch between the 3D view and the full-window map. Press Escape or close the window to quit. The `maps/` directory contains four example scenes; their texture paths are relative to the working directory.
@@ -30,7 +30,7 @@ Each scene declares `NO`, `SO`, `WE`, and `EA` texture paths and `F`/`C` RGB col
 
 The Makefile provides `all`, `bonus`, `clean`, `fclean`, and `re` rules. The `bonus` rule currently builds the same program as `all`.
 
-Runtime components live directly in `source/`; the map parser and renderer have their own `source/map/` and `source/render/` folders. Shared types and constants live in `header/core/`, and component interfaces live in `header/source/`. File-local helpers use `_module_action` names and appear before public functions. Rendering writes to the image buffer and redraws the scene and minimap when the player/view changes or the window needs refreshing.
+Runtime components live directly in `source/`; the map parser and renderer have their own `source/parser/` and `source/render/` folders. Shared types and constants live in `header/core/`, and component interfaces live in `header/source/`. File-local helpers use `_module_action` names and appear before public functions. Rendering writes to the image buffer and redraws the scene and minimap when the player/view changes or the window needs refreshing.
 
 ## Resources
 

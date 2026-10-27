@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game.c                                         :+:      :+:    :+:   */
+/*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "source/common.h"
-#include "source/game.h"
-#include "source/player.h"
-#include "source/runtime.h"
-#include "source/screen.h"
+#include "core/cub3d.h"
 
 static int	_game_has_motion(t_game *g)
 {
-	return (g->keys[GK_FORWARD] || g->keys[GK_BACKWARD]
-		|| g->keys[GK_LEFT] || g->keys[GK_RIGHT]
-		|| g->keys[GK_CLOCKWISE] || g->keys[GK_ACLOCKWISE]);
+	return (g->state.keys[GK_FORWARD] || g->state.keys[GK_BACKWARD]
+		|| g->state.keys[GK_LEFT] || g->state.keys[GK_RIGHT]
+		|| g->state.keys[GK_CLOCKWISE] || g->state.keys[GK_ACLOCKWISE]);
 }
 
 static int	_game_player_changed(t_player *old, t_player *current)
@@ -39,19 +34,19 @@ static void	_game_update_player(t_game *g, double elapsed)
 	previous = g->player;
 	player_update(g, elapsed);
 	if (_game_player_changed(&previous, &g->player))
-		g->dirty = 1;
+		g->state.needs_redraw = 1;
 }
 
 static int	_game_render(t_game *g)
 {
-	if (!g->dirty)
+	if (!g->state.needs_redraw)
 		return (0);
 	if (screen_clear(g) || screen_render(g))
 	{
-		g->status = common_error("Cannot render frame");
+		g->state.exit_status = common_error("Cannot render frame");
 		return (runtime_close(g));
 	}
-	g->dirty = 0;
+	g->state.needs_redraw = 0;
 	return (0);
 }
 
@@ -60,19 +55,19 @@ int	game_frame(t_game *g)
 	double	now;
 	double	elapsed;
 
-	if (!g->dirty && !_game_has_motion(g))
+	if (!g->state.needs_redraw && !_game_has_motion(g))
 		return (0);
 	now = common_now();
 	if (now < 0.0)
 	{
-		g->status = common_error("Cannot read frame time");
+		g->state.exit_status = common_error("Cannot read frame time");
 		return (runtime_close(g));
 	}
-	if (g->last_frame == 0.0)
+	if (g->state.last_frame_time == 0.0)
 		elapsed = 0.0;
 	else
-		elapsed = now - g->last_frame;
-	g->last_frame = now;
+		elapsed = now - g->state.last_frame_time;
+	g->state.last_frame_time = now;
 	if (elapsed < 0.0)
 		elapsed = 0.0;
 	if (elapsed > PLAYER_MAX_ELAPSED)

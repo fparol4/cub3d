@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "libft.h"
-#include "mlx.h"
-#include "source/render.h"
-#include "source/screen.h"
-#include <math.h>
+#include "core/cub3d.h"
 
 static t_viewport	_screen_overlay(t_game *g)
 {
@@ -30,25 +25,25 @@ static t_viewport	_screen_overlay(t_game *g)
 		v.width = 1;
 	if (v.height < 1)
 		v.height = 1;
-	v.x = g->frame.width - v.width - MINIMAP_MARGIN;
+	v.x = g->graphics.frame.width - v.width - MINIMAP_MARGIN;
 	v.y = MINIMAP_MARGIN;
 	return (v);
 }
 
 void	screen_toggle_view(t_game *g)
 {
-	if (g->view == V_3D)
-		g->view = V_MINIMAP;
+	if (g->state.view == V_3D)
+		g->state.view = V_MINIMAP;
 	else
-		g->view = V_3D;
-	g->dirty = 1;
+		g->state.view = V_3D;
+	g->state.needs_redraw = 1;
 }
 
 int	screen_clear(t_game *g)
 {
-	if (!g || !g->frame.addr)
+	if (!g || !g->graphics.frame.addr)
 		return (1);
-	ft_memset(g->frame.addr, 0, g->frame.llen * g->frame.height);
+	ft_memset(g->graphics.frame.addr, 0, g->graphics.frame.stride * g->graphics.frame.height);
 	return (0);
 }
 
@@ -56,16 +51,16 @@ int	screen_render(t_game *g)
 {
 	t_viewport	v;
 
-	if (!g || !g->frame.addr || !g->win)
+	if (!g || !g->graphics.frame.addr || !g->graphics.window)
 		return (1);
-	if (g->view == V_3D)
+	if (g->state.view == V_3D)
 	{
 		render_3d(g);
 		v = _screen_overlay(g);
 	}
 	else
-		v = (t_viewport){0, 0, g->frame.width, g->frame.height};
+		v = (t_viewport){0, 0, g->graphics.frame.width, g->graphics.frame.height};
 	render_map_view(g, &v);
-	mlx_put_image_to_window(g->mlx, g->win, g->frame.ptr, 0, 0);
+	mlx_put_image_to_window(g->graphics.mlx, g->graphics.window, g->graphics.frame.ptr, 0, 0);
 	return (0);
 }

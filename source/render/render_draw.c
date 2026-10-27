@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                         :+:      :+:    :+:   */
+/*   render_draw.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "source/render.h"
+#include "core/cub3d.h"
 
 static void	_render_line_step(t_point *p, t_line *line)
 {
@@ -36,7 +35,7 @@ void	render_px(t_img *img, t_point p, int color)
 
 	if (p.x < 0 || p.x >= img->width || p.y < 0 || p.y >= img->height)
 		return ;
-	dst = (unsigned int *)(img->addr + p.y * img->llen
+	dst = (unsigned int *)(img->addr + p.y * img->stride
 			+ p.x * (img->bpp / 8));
 	*dst = (unsigned int)color;
 }

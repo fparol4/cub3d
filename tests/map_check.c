@@ -1,4 +1,4 @@
-#include "source/map.h"
+#include "source/parser.h"
 #include <string.h>
 #include <unistd.h>
 
@@ -14,13 +14,13 @@ int	main(int argc, char **argv)
 	else
 		return (1);
 	game = (t_game){0};
-	if (map_parse(&game, path))
+	if (parser_controller(&game, path))
 		return (1);
-	if (argc == 3 && (access(game.map.no_texture, R_OK)
-		|| access(game.map.so_texture, R_OK)
-		|| access(game.map.we_texture, R_OK)
-		|| access(game.map.ea_texture, R_OK)))
-		return (map_cleanup(&game.map), 1);
-	map_cleanup(&game.map);
+	if (argc == 3 && (access(game.map.texture_path[TEX_NO], R_OK)
+		|| access(game.map.texture_path[TEX_SO], R_OK)
+		|| access(game.map.texture_path[TEX_WE], R_OK)
+		|| access(game.map.texture_path[TEX_EA], R_OK)))
+		return (parser_cleanup(&game.map), 1);
+	parser_cleanup(&game.map);
 	return (0);
 }

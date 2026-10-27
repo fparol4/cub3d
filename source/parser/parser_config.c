@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_config.c                                       :+:      :+:    :+:   */
+/*   parser_config.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,12 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/enum.h"
-#include "libft.h"
-#include "source/map.h"
-#include <stdlib.h>
+#include "core/cub3d.h"
 
-static unsigned int	_map_texture_field(const char *line)
+static unsigned int	_parser_texture_field(const char *line)
 {
 	if (!ft_strncmp(line, "NO", 2))
 		return (CUB_NO);
@@ -28,31 +25,31 @@ static unsigned int	_map_texture_field(const char *line)
 	return (0);
 }
 
-static char	**_map_texture_slot(t_map_data *data, unsigned int field)
+static char	**_parser_texture_slot(t_parser_data *data, unsigned int field)
 {
 	if (field == CUB_NO)
-		return (&data->map.no_texture);
+		return (&data->map.texture_path[TEX_NO]);
 	if (field == CUB_SO)
-		return (&data->map.so_texture);
+		return (&data->map.texture_path[TEX_SO]);
 	if (field == CUB_WE)
-		return (&data->map.we_texture);
+		return (&data->map.texture_path[TEX_WE]);
 	if (field == CUB_EA)
-		return (&data->map.ea_texture);
+		return (&data->map.texture_path[TEX_EA]);
 	return (NULL);
 }
 
-static int	_map_parse_texture(t_map_data *data, char *line)
+static int	_parser_parse_texture_config(t_parser_data *data, char *line)
 {
 	unsigned int	field;
 	char			**slot;
 	char			*value;
 
-	field = _map_texture_field(line);
+	field = _parser_texture_field(line);
 	if (!field || (line[2] != ' ' && line[2] != '\t'))
 		return (0);
 	if (data->fields & field)
 		return (0);
-	slot = _map_texture_slot(data, field);
+	slot = _parser_texture_slot(data, field);
 	value = ft_strtrim(line + 2, " \t\r\n");
 	if (!slot || !value || !*value)
 		return (free(value), 0);
@@ -61,7 +58,7 @@ static int	_map_parse_texture(t_map_data *data, char *line)
 	return (1);
 }
 
-static int	_map_parse_color_config(t_map_data *data, char *line)
+static int	_parser_parse_color_config(t_parser_data *data, char *line)
 {
 	unsigned int	field;
 	int				*destination;
@@ -75,19 +72,19 @@ static int	_map_parse_color_config(t_map_data *data, char *line)
 	}
 	if ((line[1] != ' ' && line[1] != '\t') || (data->fields & field))
 		return (0);
-	if (!map_parse_color(line + 2, destination))
+	if (!parser_parse_color(line + 2, destination))
 		return (0);
 	data->fields |= field;
 	return (1);
 }
 
-int	map_parse_config(t_map_data *data, char *line)
+int	parser_parse_config(t_parser_data *data, char *line)
 {
 	if (!data || !line || !*line)
 		return (0);
-	if (_map_texture_field(line))
-		return (_map_parse_texture(data, line));
+	if (_parser_texture_field(line))
+		return (_parser_parse_texture_config(data, line));
 	if (line[0] == 'F' || line[0] == 'C')
-		return (_map_parse_color_config(data, line));
+		return (_parser_parse_color_config(data, line));
 	return (0);
 }

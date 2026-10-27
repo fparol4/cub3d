@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast.c                                         :+:      :+:    :+:   */
+/*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "source/raycast.h"
-#include <math.h>
+#include "core/cub3d.h"
 
 static void	_raycast_setup(t_game *g, t_raycast *rc)
 {
@@ -63,9 +62,6 @@ static int	_raycast_is_hit(t_game *g, t_raycast *rc)
 {
 	if (g->map.grid[rc->state.map_y][rc->state.map_x] == T_FLOOR)
 		return (0);
-	rc->hit.hit = 1;
-	rc->hit.map_x = rc->state.map_x;
-	rc->hit.map_y = rc->state.map_y;
 	rc->hit.side = rc->state.side;
 	rc->hit.x = g->player.pos_x + rc->ray_x * rc->hit.distance;
 	rc->hit.y = g->player.pos_y + rc->ray_y * rc->hit.distance;

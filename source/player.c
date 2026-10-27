@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "source/player.h"
-#include <math.h>
+#include "core/cub3d.h"
 
 static int	_player_cell_blocked(t_game *g, double x, double y)
 {
@@ -47,8 +45,8 @@ static void	_player_move(t_game *g, double elapsed)
 	double	mx;
 	double	my;
 
-	fw = g->keys[GK_FORWARD] - g->keys[GK_BACKWARD];
-	st = g->keys[GK_LEFT] - g->keys[GK_RIGHT];
+	fw = g->state.keys[GK_FORWARD] - g->state.keys[GK_BACKWARD];
+	st = g->state.keys[GK_LEFT] - g->state.keys[GK_RIGHT];
 	ln = sqrt(fw * fw + st * st);
 	if (ln == 0.0)
 		return ;
@@ -81,8 +79,8 @@ static void	_player_rotate(t_player *p, double angle)
 void	player_update(t_game *g, double elapsed)
 {
 	_player_move(g, elapsed);
-	if (g->keys[GK_ACLOCKWISE])
+	if (g->state.keys[GK_ACLOCKWISE])
 		_player_rotate(&g->player, -PLAYER_ROTATION_SPEED * elapsed);
-	if (g->keys[GK_CLOCKWISE])
+	if (g->state.keys[GK_CLOCKWISE])
 		_player_rotate(&g->player, PLAYER_ROTATION_SPEED * elapsed);
 }

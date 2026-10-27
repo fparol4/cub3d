@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                         :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@
 typedef struct s_image
 {
 	int			bpp;
-	int			llen;
+	int			stride;
 	int			endian;
 	int			width;
 	int			height;
@@ -46,9 +46,6 @@ typedef struct s_line
 
 typedef struct s_ray_hit
 {
-	int			hit;
-	int			map_x;
-	int			map_y;
 	double		x;
 	double		y;
 	double		distance;
@@ -107,27 +104,32 @@ typedef struct s_map
 	int			color_floor;
 	int			color_ceiling;
 	char		**grid;
-	char		*no_texture;
-	char		*so_texture;
-	char		*we_texture;
-	char		*ea_texture;
+	char		*texture_path[TEX_COUNT];
 }				t_map;
+
+typedef struct s_graphics
+{
+	void		*window;
+	void		*mlx;
+	t_img		frame;
+	t_img		textures[TEX_COUNT];
+}				t_graphics;
+
+typedef struct s_game_state
+{
+	int			exit_status;
+	t_view		view;
+	int			needs_redraw;
+	double		last_frame_time;
+	int			keys[GK_COUNT];
+}				t_game_state;
 
 typedef struct s_game
 {
-	// GAME
-	void		*win;
-	void		*mlx;
+	t_graphics	graphics;
+	t_game_state	state;
 	t_map		map;
-	t_img		frame;
 	t_player	player;
-	t_img		texture[TEX_COUNT];
-	// STATE
-	int			status;
-	t_view		view;
-	int			dirty;
-	double		last_frame;
-	int			keys[GK_COUNT];
 }				t_game;
 
 #endif

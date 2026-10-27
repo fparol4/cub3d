@@ -1,5 +1,9 @@
 # Guia da migração: `cub3d-parser` → `source/map`
 
+> Nota: este guia registra a integração anterior. O componente agora está em
+> `source/parser/`, com interface em `header/source/parser.h`; seus nomes
+> atuais recuperam nomes originais como `parser_controller` e `valid_map`.
+
 Este guia compara o código que está em `cub3d-parser/core/src/parser/` com a
 implementação integrada em `source/map/`. O objetivo é localizar **cada função**,
 entender seu novo nome ou sua substituição e saber o que mudou no comportamento.
@@ -227,7 +231,7 @@ total alcançado com `map_count_walkable`.
    `Invalid map file`.
 
 Para exercitar só o parser, sem depender de uma janela X11, execute
-`bash .tests/test_maps.sh` na raiz do projeto. O script compila um pequeno
+`bash tests/test_maps.sh` na raiz do projeto. O script compila um pequeno
 driver com os arquivos de `source/map/`; nos mapas válidos, também confere
 se os caminhos das texturas podem ser lidos. Ele não testa a decodificação
 das imagens XPM nem a renderização.

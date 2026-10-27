@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,12 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "source/common.h"
-#include "source/map.h"
-#include <stdlib.h>
+#include "core/cub3d.h"
 
-static void	_map_apply_player(t_game *g, t_map_data *data)
+static void	_parser_apply_player(t_game *g, t_parser_data *data)
 {
 	double	dir_x;
 	double	dir_y;
@@ -38,15 +35,15 @@ static void	_map_apply_player(t_game *g, t_map_data *data)
 	g->player.plane_y = dir_x * PLAYER_PLANE_SCALE;
 }
 
-static void	_map_transfer(t_game *g, t_map_data *data)
+static void	_parser_transfer(t_game *g, t_parser_data *data)
 {
 	g->map = data->map;
 	data->map = (t_map){0};
 	g->map.grid[data->player_y][data->player_x] = T_FLOOR;
-	_map_apply_player(g, data);
+	_parser_apply_player(g, data);
 }
 
-void	map_cleanup(t_map *map)
+void	parser_cleanup(t_map *map)
 {
 	int	y;
 
@@ -56,22 +53,21 @@ void	map_cleanup(t_map *map)
 	while (map->grid && y < map->height)
 		free(map->grid[y++]);
 	free(map->grid);
-	free(map->no_texture);
-	free(map->so_texture);
-	free(map->we_texture);
-	free(map->ea_texture);
+	y = 0;
+	while (y < TEX_COUNT)
+		free(map->texture_path[y++]);
 	*map = (t_map){0};
 }
 
-int	map_parse(t_game *g, char *map_path)
+int	parser_controller(t_game *g, char *map_path)
 {
-	t_map_data	data;
+	t_parser_data	data;
 
 	if (!g || !map_path)
 		return (common_error("Invalid map file"));
-	data = (t_map_data){0};
-	if (!map_read_archive(&data, map_path) || !map_validate(&data))
-		return (map_cleanup(&data.map), common_error("Invalid map file"));
-	_map_transfer(g, &data);
+	data = (t_parser_data){0};
+	if (!parser_split_archive(&data, map_path) || !parser_valid_map(&data))
+		return (parser_cleanup(&data.map), common_error("Invalid map file"));
+	_parser_transfer(g, &data);
 	return (0);
 }

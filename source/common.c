@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.c                                         :+:      :+:    :+:   */
+/*   common.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,28 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "core/enum.h"
-#include "libft.h"
-#include "source/common.h"
-#include <stddef.h>
-#include <sys/time.h>
+#include "core/cub3d.h"
 
-int	common_kid(int keycode)
+int	common_key_id(int keycode)
 {
-	if (keycode == K_A)
+	if (keycode == KEY_A)
 		return (GK_LEFT);
-	if (keycode == K_D)
+	if (keycode == KEY_D)
 		return (GK_RIGHT);
-	if (keycode == K_LEFT)
+	if (keycode == KEY_LEFT)
 		return (GK_ACLOCKWISE);
-	if (keycode == K_RIGHT)
+	if (keycode == KEY_RIGHT)
 		return (GK_CLOCKWISE);
-	if (keycode == K_M)
+	if (keycode == KEY_M)
 		return (GK_VIEW);
-	if (keycode == K_W || keycode == K_UP)
+	if (keycode == KEY_W || keycode == KEY_UP)
 		return (GK_FORWARD);
-	if (keycode == K_S || keycode == K_DOWN)
+	if (keycode == KEY_S || keycode == KEY_DOWN)
 		return (GK_BACKWARD);
 	return (-1);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture.c                                         :+:      :+:    :+:   */
+/*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "source/common.h"
-#include "source/texture.h"
+#include "core/cub3d.h"
 
 static int	_texture_load(t_game *g, t_img *img, char *path)
 {
-	img->ptr = mlx_xpm_file_to_image(g->mlx, path, &img->width, &img->height);
+	img->ptr = mlx_xpm_file_to_image(g->graphics.mlx, path, &img->width, &img->height);
 	if (!img->ptr)
 		return (common_error("Cannot load wall texture"));
-	img->addr = mlx_get_data_addr(img->ptr, &img->bpp, &img->llen,
+	img->addr = mlx_get_data_addr(img->ptr, &img->bpp, &img->stride,
 			&img->endian);
 	if (!img->addr || img->width <= 0 || img->height <= 0 || img->bpp != 32)
 		return (common_error("Unsupported wall texture image"));
@@ -28,11 +26,15 @@ static int	_texture_load(t_game *g, t_img *img, char *path)
 
 int	texture_load(t_game *g)
 {
-	if (_texture_load(g, &g->texture[TEX_NO], g->map.no_texture)
-		|| _texture_load(g, &g->texture[TEX_SO], g->map.so_texture)
-		|| _texture_load(g, &g->texture[TEX_WE], g->map.we_texture)
-		|| _texture_load(g, &g->texture[TEX_EA], g->map.ea_texture))
-		return (1);
+	int	i;
+
+	i = 0;
+	while (i < TEX_COUNT)
+	{
+		if (_texture_load(g, &g->graphics.textures[i], g->map.texture_path[i]))
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
@@ -43,9 +45,9 @@ void	texture_cleanup(t_game *g)
 	i = 0;
 	while (i < TEX_COUNT)
 	{
-		if (g->texture[i].ptr)
-			mlx_destroy_image(g->mlx, g->texture[i].ptr);
-		g->texture[i++] = (t_img){0};
+		if (g->graphics.textures[i].ptr)
+			mlx_destroy_image(g->graphics.mlx, g->graphics.textures[i].ptr);
+		g->graphics.textures[i++] = (t_img){0};
 	}
 }
 
@@ -54,10 +56,10 @@ t_img	*texture_face(t_game *g, t_raycast *rc)
 	if (rc->hit.side == RAYSIDE_X)
 	{
 		if (rc->ray_x > 0)
-			return (&g->texture[TEX_WE]);
-		return (&g->texture[TEX_EA]);
+			return (&g->graphics.textures[TEX_WE]);
+		return (&g->graphics.textures[TEX_EA]);
 	}
 	if (rc->ray_y > 0)
-		return (&g->texture[TEX_NO]);
-	return (&g->texture[TEX_SO]);
+		return (&g->graphics.textures[TEX_NO]);
+	return (&g->graphics.textures[TEX_SO]);
 }

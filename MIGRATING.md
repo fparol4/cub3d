@@ -1,5 +1,7 @@
 # Parser migration
 
+> Historical migration record: the component now lives in `source/parser/` and its interface is `header/source/parser.h`.
+
 ## Plan
 
 1. **Establish the project boundary.** Keep the parser component under `source/map/` and use the existing `header/source/map.h` for its runtime API and parser declarations.

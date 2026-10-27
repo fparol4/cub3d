@@ -13,8 +13,9 @@ fi
 CHECKER="$(mktemp)" || exit 1
 trap 'rm -f "$CHECKER"' EXIT
 if ! cc -Wall -Wextra -Werror -I"$ROOT_DIR/header" \
-	-I"$ROOT_DIR/library/libft" "$ROOT_DIR/tests/map_check.c" \
-	"$ROOT_DIR"/source/map/*.c "$ROOT_DIR/source/common.c" \
+	-I"$ROOT_DIR/library/libft" -I"$ROOT_DIR/library/mlx" \
+	"$ROOT_DIR/tests/map_check.c" \
+	"$ROOT_DIR"/source/parser/*.c "$ROOT_DIR/source/common.c" \
 	"$ROOT_DIR/library/libft/libft.a" -o "$CHECKER"; then
 	exit 1
 fi

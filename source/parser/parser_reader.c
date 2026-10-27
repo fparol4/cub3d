@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_reader.c                                       :+:      :+:    :+:   */
+/*   parser_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,25 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "source/map.h"
-#include <fcntl.h>
-#include <limits.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "core/cub3d.h"
 
-static int	_map_is_start(const char *line)
+static int	_parser_is_start(const char *line)
 {
 	if ((line[0] == 'N' && line[1] == 'O')
 		|| (line[0] == 'S' && line[1] == 'O')
 		|| (line[0] == 'W' && line[1] == 'E')
 		|| (line[0] == 'E' && line[1] == 'A'))
 		return (0);
-	return (*line == T_WALL || map_is_walkable(*line));
+	return (*line == T_WALL || parser_is_walkable(*line));
 }
 
-static char	**_map_resize_grid(t_map_data *data)
+static char	**_parser_resize_grid(t_parser_data *data)
 {
 	char	**grid;
 	size_t	count;
@@ -44,7 +38,7 @@ static char	**_map_resize_grid(t_map_data *data)
 	return (grid);
 }
 
-static int	_map_append_line(t_map_data *data, char *line)
+static int	_parser_append_map_line(t_parser_data *data, char *line)
 {
 	char	**grid;
 	size_t	length;
@@ -55,7 +49,7 @@ static int	_map_append_line(t_map_data *data, char *line)
 		return (0);
 	if (length > INT_MAX)
 		return (0);
-	grid = _map_resize_grid(data);
+	grid = _parser_resize_grid(data);
 	if (!grid)
 		return (0);
 	data->map.grid = grid;
@@ -66,7 +60,7 @@ static int	_map_append_line(t_map_data *data, char *line)
 	return (1);
 }
 
-static int	_map_process_line(t_map_data *data, char *line)
+static int	_parser_process_line(t_parser_data *data, char *line)
 {
 	char	*trimmed;
 	size_t	length;
@@ -76,25 +70,25 @@ static int	_map_process_line(t_map_data *data, char *line)
 		return (free(line), 0);
 	if (!data->map_started && !*trimmed)
 		return (free(trimmed), free(line), 1);
-	if (data->map_started || _map_is_start(trimmed))
+	if (data->map_started || _parser_is_start(trimmed))
 	{
 		data->map_started = 1;
 		free(trimmed);
 		length = ft_strlen(line);
 		if (length && line[length - 1] == '\n')
 			line[length - 1] = '\0';
-		if (!_map_append_line(data, line))
+		if (!_parser_append_map_line(data, line))
 			return (free(line), 0);
 		return (1);
 	}
-	if (!map_parse_config(data, trimmed))
+	if (!parser_parse_config(data, trimmed))
 		return (free(trimmed), free(line), 0);
 	free(trimmed);
 	free(line);
 	return (1);
 }
 
-int	map_read_archive(t_map_data *data, const char *path)
+int	parser_split_archive(t_parser_data *data, const char *path)
 {
 	int		fd;
 	char	*line;
@@ -110,12 +104,12 @@ int	map_read_archive(t_map_data *data, const char *path)
 	line = ft_get_next_line(fd);
 	while (line && ok)
 	{
-		ok = _map_process_line(data, line);
+		ok = _parser_process_line(data, line);
 		if (ok)
 			line = ft_get_next_line(fd);
 	}
 	close(fd);
 	if (!ok || !data->map.height || !data->map.width)
 		return (0);
-	return (map_rectangularize(&data->map));
+	return (parser_rectangularize(&data->map));
 }

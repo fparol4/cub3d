@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_connectivity.c                                 :+:      :+:    :+:   */
+/*   parser_connectivity.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "source/map.h"
-#include "libft.h"
-#include <stdint.h>
-#include <stdlib.h>
+#include "core/cub3d.h"
 
-static int	_map_flood_add(t_map_flood *flood, int x, int y)
+static int	_parser_add_point(t_parser_flood *flood, int x, int y)
 {
 	size_t	index;
 
-	if (!map_is_walkable(map_cell_at(flood->data, x, y)))
+	if (!parser_is_walkable(parser_map_at(flood->data, x, y)))
 		return (1);
 	index = (size_t)y * flood->data->map.width + x;
 	if (flood->visited[index])
@@ -31,15 +28,15 @@ static int	_map_flood_add(t_map_flood *flood, int x, int y)
 	return (1);
 }
 
-static int	_map_flood_neighbours(t_map_flood *flood, t_point point)
+static int	_parser_add_neighbours(t_parser_flood *flood, t_point point)
 {
-	return (_map_flood_add(flood, point.x - 1, point.y)
-		&& _map_flood_add(flood, point.x + 1, point.y)
-		&& _map_flood_add(flood, point.x, point.y - 1)
-		&& _map_flood_add(flood, point.x, point.y + 1));
+	return (_parser_add_point(flood, point.x - 1, point.y)
+		&& _parser_add_point(flood, point.x + 1, point.y)
+		&& _parser_add_point(flood, point.x, point.y - 1)
+		&& _parser_add_point(flood, point.x, point.y + 1));
 }
 
-static int	_map_flood_init(t_map_flood *flood, t_map_data *data)
+static int	_parser_init_flood(t_parser_flood *flood, t_parser_data *data)
 {
 	size_t	cells;
 
@@ -61,7 +58,7 @@ static int	_map_flood_init(t_map_flood *flood, t_map_data *data)
 	return (1);
 }
 
-static size_t	_map_flood_run(t_map_flood *flood)
+static size_t	_parser_run_flood(t_parser_flood *flood)
 {
 	t_point	point;
 	size_t	head;
@@ -70,23 +67,23 @@ static size_t	_map_flood_run(t_map_flood *flood)
 	while (head < flood->tail)
 	{
 		point = flood->queue[head++];
-		if (!_map_flood_neighbours(flood, point))
+		if (!_parser_add_neighbours(flood, point))
 			return (0);
 	}
 	return (flood->tail);
 }
 
-int	map_connectivity_validate(t_map_data *data)
+int	parser_validate_map_connectivity(t_parser_data *data)
 {
-	t_map_flood	flood;
+	t_parser_flood	flood;
 	size_t		reachable;
 	size_t		total;
 
-	flood = (t_map_flood){0};
-	if (!_map_flood_init(&flood, data))
+	flood = (t_parser_flood){0};
+	if (!_parser_init_flood(&flood, data))
 		return (-1);
-	reachable = _map_flood_run(&flood);
-	total = map_count_walkable(data);
+	reachable = _parser_run_flood(&flood);
+	total = parser_count_walkable_cells(data);
 	free(flood.visited);
 	free(flood.queue);
 	return (reachable == total);

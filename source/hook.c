@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                         :+:      :+:    :+:   */
+/*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,46 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "source/common.h"
-#include "source/hook.h"
-#include "source/runtime.h"
-#include "source/screen.h"
+#include "core/cub3d.h"
 
 int	hook_press(int keycode, t_game *g)
 {
-	int	kid;
+	int	key_id;
 
-	if (keycode == K_ESC)
+	if (keycode == KEY_ESC)
 		return (runtime_close(g));
-	kid = common_kid(keycode);
-	if (kid == GK_VIEW)
+	key_id = common_key_id(keycode);
+	if (key_id == GK_VIEW)
 	{
-		if (g->keys[GK_VIEW])
+		if (g->state.keys[GK_VIEW])
 			return (0);
-		g->keys[GK_VIEW] = 1;
+		g->state.keys[GK_VIEW] = 1;
 		screen_toggle_view(g);
 		return (0);
 	}
-	if (kid >= 0 && kid < GK_COUNT)
+	if (key_id >= 0 && key_id < GK_COUNT)
 	{
-		if (!g->keys[kid])
-			g->dirty = 1;
-		g->keys[kid] = 1;
+		if (!g->state.keys[key_id])
+			g->state.needs_redraw = 1;
+		g->state.keys[key_id] = 1;
 	}
 	return (0);
 }
 
 int	hook_release(int keycode, t_game *g)
 {
-	int	kid;
+	int	key_id;
 
-	kid = common_kid(keycode);
-	if (kid >= 0 && kid < GK_COUNT)
+	key_id = common_key_id(keycode);
+	if (key_id >= 0 && key_id < GK_COUNT)
 	{
-		if (g->keys[kid])
-			g->dirty = 1;
-		g->keys[kid] = 0;
+		if (g->state.keys[key_id])
+			g->state.needs_redraw = 1;
+		g->state.keys[key_id] = 0;
 	}
 	return (0);
 }
@@ -61,15 +57,15 @@ int	hook_out(t_game *g)
 	i = 0;
 	while (i < GK_COUNT)
 	{
-		if (g->keys[i])
-			g->dirty = 1;
-		g->keys[i++] = 0;
+		if (g->state.keys[i])
+			g->state.needs_redraw = 1;
+		g->state.keys[i++] = 0;
 	}
 	return (0);
 }
 
 int	hook_expose(t_game *g)
 {
-	g->dirty = 1;
+	g->state.needs_redraw = 1;
 	return (0);
 }

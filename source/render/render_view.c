@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   view.c                                             :+:      :+:    :+:   */
+/*   render_view.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "source/render.h"
+#include "core/cub3d.h"
 
 static int	_render_tile_color(char tile)
 {
@@ -29,7 +28,15 @@ static void	_render_map_cell(t_game *g, t_viewport *v, t_point cell)
 
 	from = render_map_point(g, v, cell.x, cell.y);
 	to = render_map_point(g, v, cell.x + 1, cell.y + 1);
-	render_rect(&g->frame, from, to,
+	if (to.x - from.x > 2 && to.y - from.y > 2)
+	{
+		render_rect(&g->graphics.frame, from, to, COLOR_TILE_BORDER);
+		from.x++;
+		from.y++;
+		to.x--;
+		to.y--;
+	}
+	render_rect(&g->graphics.frame, from, to,
 		_render_tile_color(g->map.grid[cell.y][cell.x]));
 }
 
@@ -66,7 +73,7 @@ static void	_render_player(t_game *g, t_viewport *v)
 		size = 2;
 	from = (t_point){center.x - size / 2, center.y - size / 2};
 	to = (t_point){from.x + size, from.y + size};
-	render_rect(&g->frame, from, to, COLOR_PLAYER);
+	render_rect(&g->graphics.frame, from, to, COLOR_PLAYER);
 }
 
 void	render_map_view(t_game *g, t_viewport *v)

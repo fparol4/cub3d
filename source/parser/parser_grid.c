@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_grid.c                                         :+:      :+:    :+:   */
+/*   parser_grid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "source/map.h"
-#include <stdlib.h>
+#include "core/cub3d.h"
 
-static void	_map_free_grid(char **grid, int height)
+static void	_parser_free_grid(char **grid, int height)
 {
 	int	y;
 
@@ -24,7 +22,7 @@ static void	_map_free_grid(char **grid, int height)
 	free(grid);
 }
 
-static char	*_map_pad_row(const char *row, int width)
+static char	*_parser_pad_row(const char *row, int width)
 {
 	char	*padded;
 	int		x;
@@ -44,7 +42,7 @@ static char	*_map_pad_row(const char *row, int width)
 	return (padded);
 }
 
-static char	**_map_copy_grid(t_map *map)
+static char	**_parser_copy_grid(t_map *map)
 {
 	char	**grid;
 	int		y;
@@ -55,22 +53,22 @@ static char	**_map_copy_grid(t_map *map)
 	y = 0;
 	while (y < map->height)
 	{
-		grid[y] = _map_pad_row(map->grid[y], map->width);
+		grid[y] = _parser_pad_row(map->grid[y], map->width);
 		if (!grid[y])
-			return (_map_free_grid(grid, map->height), NULL);
+			return (_parser_free_grid(grid, map->height), NULL);
 		y++;
 	}
 	return (grid);
 }
 
-int	map_rectangularize(t_map *map)
+int	parser_rectangularize(t_map *map)
 {
 	char	**grid;
 
-	grid = _map_copy_grid(map);
+	grid = _parser_copy_grid(map);
 	if (!grid)
 		return (0);
-	_map_free_grid(map->grid, map->height);
+	_parser_free_grid(map->grid, map->height);
 	map->grid = grid;
 	return (1);
 }

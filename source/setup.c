@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup.c                                         :+:      :+:    :+:   */
+/*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,49 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "core/const.h"
-#include "libft.h"
-#include "mlx.h"
-#include "source/common.h"
-#include "source/game.h"
-#include "source/hook.h"
-#include "source/runtime.h"
-#include "source/setup.h"
-#include "source/texture.h"
+#include "core/cub3d.h"
 
 static int	_setup_mlx(t_game *g)
 {
-	g->mlx = mlx_init();
-	if (!g->mlx)
+	g->graphics.mlx = mlx_init();
+	if (!g->graphics.mlx)
 		return (common_error("Cannot initialize graphics"));
-	g->win = mlx_new_window(g->mlx, S_WIDTH, S_HEIGHT, G_NAME);
-	if (!g->win)
+	g->graphics.window = mlx_new_window(g->graphics.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, G_NAME);
+	if (!g->graphics.window)
 		return (common_error("Cannot initialize graphics"));
 	return (0);
 }
 
 static void	_setup_hook(t_game *g)
 {
-	mlx_hook(g->win, EVT_KEY_PRESS, MASK_KEY_PRESS, hook_press, g);
-	mlx_hook(g->win, EVT_KEY_RELEASE, MASK_KEY_RELEASE, hook_release, g);
-	mlx_hook(g->win, EVT_FOCUS_OUT, MASK_FOCUS_CHANGE, hook_out, g);
-	mlx_hook(g->win, EVT_EXPOSE, MASK_EXPOSURE, hook_expose, g);
-	mlx_hook(g->win, EVT_EXIT, MASK_STRUCTURE_NOTIFY, runtime_close, g);
-	mlx_loop_hook(g->mlx, game_frame, g);
+	mlx_hook(g->graphics.window, EVT_KEY_PRESS, MASK_KEY_PRESS, hook_press, g);
+	mlx_hook(g->graphics.window, EVT_KEY_RELEASE, MASK_KEY_RELEASE, hook_release, g);
+	mlx_hook(g->graphics.window, EVT_FOCUS_OUT, MASK_FOCUS_CHANGE, hook_out, g);
+	mlx_hook(g->graphics.window, EVT_EXPOSE, MASK_EXPOSURE, hook_expose, g);
+	mlx_hook(g->graphics.window, EVT_EXIT, MASK_STRUCTURE_NOTIFY, runtime_close, g);
+	mlx_loop_hook(g->graphics.mlx, game_frame, g);
 }
 
 static int	_setup_frame(t_game *g)
 {
-	g->frame.width = S_WIDTH;
-	g->frame.height = S_HEIGHT;
-	g->frame.ptr = mlx_new_image(g->mlx, g->frame.width, g->frame.height);
-	if (!g->frame.ptr)
+	g->graphics.frame.width = SCREEN_WIDTH;
+	g->graphics.frame.height = SCREEN_HEIGHT;
+	g->graphics.frame.ptr = mlx_new_image(g->graphics.mlx, g->graphics.frame.width, g->graphics.frame.height);
+	if (!g->graphics.frame.ptr)
 		return (common_error("Cannot initialize graphics"));
-	g->frame.addr = mlx_get_data_addr(g->frame.ptr, &g->frame.bpp,
-			&g->frame.llen, &g->frame.endian);
-	if (!g->frame.addr)
+	g->graphics.frame.addr = mlx_get_data_addr(g->graphics.frame.ptr, &g->graphics.frame.bpp,
+			&g->graphics.frame.stride, &g->graphics.frame.endian);
+	if (!g->graphics.frame.addr)
 		return (common_error("Cannot initialize graphics"));
-	ft_memset(g->frame.addr, 0, g->frame.llen * g->frame.height);
+	ft_memset(g->graphics.frame.addr, 0, g->graphics.frame.stride * g->graphics.frame.height);
 	return (0);
 }
 

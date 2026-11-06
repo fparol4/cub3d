@@ -16,5 +16,5 @@
 
 int		texture_load(t_game *g);
 void	texture_cleanup(t_game *g);
-t_img	*texture_face(t_game *g, t_raycast *rc);
+t_img	*texture_for_hit(t_game *g, t_raycast *rc);
 #endif

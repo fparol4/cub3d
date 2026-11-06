@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	runtime_cleanup(t_game *g)
 int	runtime_setup(t_game *g, char *map_path)
 {
 	*g = (t_game){0};
-	if (parser_controller(g, map_path) || setup_game(g))
-		return (runtime_cleanup(g), 1);
+	if (parser_load_map(g, map_path) || setup_game(g))
+	{
+		runtime_cleanup(g);
+		return (1);
+	}
 	g->state.needs_redraw = 1;
 	return (0);
 }

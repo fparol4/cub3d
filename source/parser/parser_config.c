@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static int	_parser_parse_texture_config(t_parser_data *data, char *line)
 	slot = _parser_texture_slot(data, field);
 	value = ft_strtrim(line + 2, " \t\r\n");
 	if (!slot || !value || !*value)
-		return (free(value), 0);
+	{
+		free(value);
+		return (0);
+	}
 	*slot = value;
 	data->fields |= field;
 	return (1);

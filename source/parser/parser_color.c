@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:39 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:39 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,14 @@ static int	_parser_parse_separator(const char **value)
 	return (1);
 }
 
-static int	_parser_parse_rgb(const char *value, int *red, int *green, int *blue)
+static int	_parser_parse_rgb(const char *value, int *red, int *green,
+		int *blue)
 {
-	if (!_parser_parse_rgb_value(&value, red) || !_parser_parse_separator(&value))
+	if (!_parser_parse_rgb_value(&value, red)
+		|| !_parser_parse_separator(&value))
 		return (0);
-	if (!_parser_parse_rgb_value(&value, green) || !_parser_parse_separator(&value))
+	if (!_parser_parse_rgb_value(&value, green)
+		|| !_parser_parse_separator(&value))
 		return (0);
 	if (!_parser_parse_rgb_value(&value, blue))
 		return (0);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ static int	_parser_init_flood(t_parser_flood *flood, t_parser_data *data)
 	flood->visited = ft_calloc(cells, sizeof(*flood->visited));
 	flood->queue = malloc(cells * sizeof(*flood->queue));
 	if (!flood->visited || !flood->queue)
-		return (free(flood->visited), free(flood->queue), 0);
+	{
+		free(flood->visited);
+		free(flood->queue);
+		return (0);
+	}
 	flood->visited[(size_t)data->player_y * data->map.width
 		+ data->player_x] = 1;
 	flood->queue[0] = (t_point){data->player_x, data->player_y};
@@ -76,8 +80,8 @@ static size_t	_parser_run_flood(t_parser_flood *flood)
 int	parser_validate_map_connectivity(t_parser_data *data)
 {
 	t_parser_flood	flood;
-	size_t		reachable;
-	size_t		total;
+	size_t			reachable;
+	size_t			total;
 
 	flood = (t_parser_flood){0};
 	if (!_parser_init_flood(&flood, data))

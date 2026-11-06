@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	_texture_load(t_game *g, t_img *img, char *path)
 {
-	img->ptr = mlx_xpm_file_to_image(g->graphics.mlx, path, &img->width, &img->height);
+	img->ptr = mlx_xpm_file_to_image(g->graphics.mlx, path, &img->width,
+			&img->height);
 	if (!img->ptr)
 		return (common_error("Cannot load wall texture"));
 	img->addr = mlx_get_data_addr(img->ptr, &img->bpp, &img->stride,
@@ -51,7 +52,7 @@ void	texture_cleanup(t_game *g)
 	}
 }
 
-t_img	*texture_face(t_game *g, t_raycast *rc)
+t_img	*texture_for_hit(t_game *g, t_raycast *rc)
 {
 	if (rc->hit.side == RAYSIDE_X)
 	{

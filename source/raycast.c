@@ -5,19 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "core/cub3d.h"
 
+/* Zero components cannot cross that axis; positive steps use the far edge. */
 static void	_raycast_setup(t_game *g, t_raycast *rc)
 {
 	rc->state.map_x = (int)floor(g->player.pos_x);
 	rc->state.map_y = (int)floor(g->player.pos_y);
-	rc->state.delta_x = 1e30;
-	rc->state.delta_y = 1e30;
+	rc->state.delta_x = RAYCAST_UNREACHABLE_DISTANCE;
+	rc->state.delta_y = RAYCAST_UNREACHABLE_DISTANCE;
 	if (rc->ray_x != 0.0)
 		rc->state.delta_x = fabs(1.0 / rc->ray_x);
 	if (rc->ray_y != 0.0)
@@ -58,7 +59,7 @@ static int	_raycast_in_boundaries(t_game *g, t_raycast *rc)
 		&& rc->state.map_x < g->map.width && rc->state.map_y < g->map.height);
 }
 
-static int	_raycast_is_hit(t_game *g, t_raycast *rc)
+static int	_raycast_record_hit(t_game *g, t_raycast *rc)
 {
 	if (g->map.grid[rc->state.map_y][rc->state.map_x] == T_FLOOR)
 		return (0);
@@ -80,7 +81,7 @@ int	raycast_cast(t_game *g, t_raycast *rc)
 		_raycast_advance(rc);
 		if (!_raycast_in_boundaries(g, rc))
 			return (0);
-		if (_raycast_is_hit(g, rc))
+		if (_raycast_record_hit(g, rc))
 			return (1);
 	}
 	return (0);

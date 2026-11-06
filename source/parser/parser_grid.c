@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ static char	**_parser_copy_grid(t_map *map)
 	{
 		grid[y] = _parser_pad_row(map->grid[y], map->width);
 		if (!grid[y])
-			return (_parser_free_grid(grid, map->height), NULL);
+		{
+			_parser_free_grid(grid, map->height);
+			return (NULL);
+		}
 		y++;
 	}
 	return (grid);

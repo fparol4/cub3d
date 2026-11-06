@@ -14,13 +14,16 @@ int	main(int argc, char **argv)
 	else
 		return (1);
 	game = (t_game){0};
-	if (parser_controller(&game, path))
+	if (parser_load_map(&game, path))
 		return (1);
 	if (argc == 3 && (access(game.map.texture_path[TEX_NO], R_OK)
 		|| access(game.map.texture_path[TEX_SO], R_OK)
 		|| access(game.map.texture_path[TEX_WE], R_OK)
 		|| access(game.map.texture_path[TEX_EA], R_OK)))
-		return (parser_cleanup(&game.map), 1);
+	{
+		parser_cleanup(&game.map);
+		return (1);
+	}
 	parser_cleanup(&game.map);
 	return (0);
 }

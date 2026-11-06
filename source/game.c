@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:39 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:39 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	_game_has_motion(t_game *g)
 {
 	return (g->state.keys[GK_FORWARD] || g->state.keys[GK_BACKWARD]
-		|| g->state.keys[GK_LEFT] || g->state.keys[GK_RIGHT]
-		|| g->state.keys[GK_CLOCKWISE] || g->state.keys[GK_ACLOCKWISE]);
+		|| g->state.keys[GK_STRAFE_LEFT] || g->state.keys[GK_STRAFE_RIGHT]
+		|| g->state.keys[GK_TURN_RIGHT] || g->state.keys[GK_TURN_LEFT]);
 }
 
 static int	_game_player_changed(t_player *old, t_player *current)

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	screen_clear(t_game *g)
 {
 	if (!g || !g->graphics.frame.addr)
 		return (1);
-	ft_memset(g->graphics.frame.addr, 0, g->graphics.frame.stride * g->graphics.frame.height);
+	ft_memset(g->graphics.frame.addr, 0, g->graphics.frame.stride
+		* g->graphics.frame.height);
 	return (0);
 }
 
@@ -59,8 +60,10 @@ int	screen_render(t_game *g)
 		v = _screen_overlay(g);
 	}
 	else
-		v = (t_viewport){0, 0, g->graphics.frame.width, g->graphics.frame.height};
+		v = (t_viewport){0, 0, g->graphics.frame.width,
+			g->graphics.frame.height};
 	render_map_view(g, &v);
-	mlx_put_image_to_window(g->graphics.mlx, g->graphics.window, g->graphics.frame.ptr, 0, 0);
+	mlx_put_image_to_window(g->graphics.mlx, g->graphics.window,
+		g->graphics.frame.ptr, 0, 0);
 	return (0);
 }

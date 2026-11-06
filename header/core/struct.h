@@ -89,6 +89,7 @@ typedef struct s_viewport
 
 typedef struct s_column
 {
+	/* NULL texture means a miss; the remaining fields are unused. */
 	t_img		*texture;
 	int			tex_x;
 	int			height;
@@ -126,10 +127,10 @@ typedef struct s_game_state
 
 typedef struct s_game
 {
-	t_graphics	graphics;
+	t_graphics		graphics;
 	t_game_state	state;
-	t_map		map;
-	t_player	player;
+	t_map			map;
+	t_player		player;
 }				t_game;
 
 #endif

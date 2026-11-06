@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:39 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:39 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	_parser_apply_player(t_game *g, t_parser_data *data)
 	g->player.plane_y = dir_x * PLAYER_PLANE_SCALE;
 }
 
+/* Move grid and texture-path ownership to g before clearing the parser map. */
 static void	_parser_transfer(t_game *g, t_parser_data *data)
 {
 	g->map = data->map;
@@ -59,15 +60,18 @@ void	parser_cleanup(t_map *map)
 	*map = (t_map){0};
 }
 
-int	parser_controller(t_game *g, char *map_path)
+int	parser_load_map(t_game *g, char *map_path)
 {
 	t_parser_data	data;
 
 	if (!g || !map_path)
 		return (common_error("Invalid map file"));
 	data = (t_parser_data){0};
-	if (!parser_split_archive(&data, map_path) || !parser_valid_map(&data))
-		return (parser_cleanup(&data.map), common_error("Invalid map file"));
+	if (!parser_read_file(&data, map_path) || !parser_validate_map(&data))
+	{
+		parser_cleanup(&data.map);
+		return (common_error("Invalid map file"));
+	}
 	_parser_transfer(g, &data);
 	return (0);
 }

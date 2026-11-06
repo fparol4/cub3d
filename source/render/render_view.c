@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 19:25:19 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/06/08 19:25:19 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	_render_map_cell(t_game *g, t_viewport *v, t_point cell)
 	t_point	from;
 	t_point	to;
 
-	from = render_map_point(g, v, cell.x, cell.y);
-	to = render_map_point(g, v, cell.x + 1, cell.y + 1);
+	from = render_world_to_map(g, v, cell.x, cell.y);
+	to = render_world_to_map(g, v, cell.x + 1, cell.y + 1);
 	if (to.x - from.x > 2 && to.y - from.y > 2)
 	{
 		render_rect(&g->graphics.frame, from, to, COLOR_TILE_BORDER);
@@ -64,7 +64,7 @@ static void	_render_player(t_game *g, t_viewport *v)
 	t_point	to;
 	int		size;
 
-	center = render_map_point(g, v, g->player.pos_x, g->player.pos_y);
+	center = render_world_to_map(g, v, g->player.pos_x, g->player.pos_y);
 	size = v->width / g->map.width;
 	if (v->height / g->map.height < size)
 		size = v->height / g->map.height;

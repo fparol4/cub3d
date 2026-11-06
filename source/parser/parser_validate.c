@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 16:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 16:00:00 by fcardozo        ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	_parser_validate_closed_cells(t_parser_data *data)
 	return (1);
 }
 
-static int	_parser_count_players(t_parser_data *data)
+static int	_parser_scan_cells(t_parser_data *data)
 {
 	int	y;
 	int	players;
@@ -90,13 +90,14 @@ static int	_parser_count_players(t_parser_data *data)
 	return (players);
 }
 
-int	parser_valid_map(t_parser_data *data)
+int	parser_validate_map(t_parser_data *data)
 {
 	if (!data || (data->fields & CUB_REQ_FIELDS) != CUB_REQ_FIELDS)
 		return (0);
 	if (!data->map.grid || data->map.height < 3 || data->map.width < 3)
 		return (0);
-	if (_parser_count_players(data) != 1 || !_parser_validate_closed_cells(data))
+	if (_parser_scan_cells(data) != 1
+		|| !_parser_validate_closed_cells(data))
 		return (0);
 	return (parser_validate_map_connectivity(data) == 1);
 }

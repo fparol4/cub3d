@@ -20,5 +20,5 @@ void	render_fov(t_game *g, t_viewport *v);
 void	render_px(t_img *img, t_point p, int color);
 void	render_line(t_img *img, t_point from, t_point to, int color);
 void	render_rect(t_img *img, t_point from, t_point to, int color);
-t_point	render_map_point(t_game *g, t_viewport *v, double x, double y);
+t_point	render_world_to_map(t_game *g, t_viewport *v, double x, double y);
 #endif

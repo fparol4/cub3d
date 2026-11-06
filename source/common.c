@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:39 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:39 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	common_key_id(int keycode)
 {
 	if (keycode == KEY_A)
-		return (GK_LEFT);
+		return (GK_STRAFE_LEFT);
 	if (keycode == KEY_D)
-		return (GK_RIGHT);
+		return (GK_STRAFE_RIGHT);
 	if (keycode == KEY_LEFT)
-		return (GK_ACLOCKWISE);
+		return (GK_TURN_LEFT);
 	if (keycode == KEY_RIGHT)
-		return (GK_CLOCKWISE);
+		return (GK_TURN_RIGHT);
 	if (keycode == KEY_M)
 		return (GK_VIEW);
 	if (keycode == KEY_W || keycode == KEY_UP)

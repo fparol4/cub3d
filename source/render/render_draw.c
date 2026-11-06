@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 16:50:40 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 16:50:40 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	render_px(t_img *img, t_point p, int color)
 
 	if (p.x < 0 || p.x >= img->width || p.y < 0 || p.y >= img->height)
 		return ;
-	dst = (unsigned int *)(img->addr + p.y * img->stride
-			+ p.x * (img->bpp / 8));
+	dst = (unsigned int *)(img->addr + p.y * img->stride + p.x * (img->bpp
+				/ 8));
 	*dst = (unsigned int)color;
 }
 
@@ -75,7 +75,7 @@ void	render_rect(t_img *img, t_point from, t_point to, int color)
 	}
 }
 
-t_point	render_map_point(t_game *g, t_viewport *v, double x, double y)
+t_point	render_world_to_map(t_game *g, t_viewport *v, double x, double y)
 {
 	t_point	p;
 

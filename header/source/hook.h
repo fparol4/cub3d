@@ -14,7 +14,7 @@
 # define HOOK_H
 # include "core/struct.h"
 
-int	hook_out(t_game *g);
+int	hook_focus_out(t_game *g);
 int	hook_expose(t_game *g);
 int	hook_press(int keycode, t_game *g);
 int	hook_release(int keycode, t_game *g);

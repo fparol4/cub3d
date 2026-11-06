@@ -99,5 +99,5 @@ int	parser_validate_map(t_parser_data *data)
 	if (_parser_scan_cells(data) != 1
 		|| !_parser_validate_closed_cells(data))
 		return (0);
-	return (parser_validate_map_connectivity(data) == 1);
+	return (1);
 }

@@ -35,7 +35,6 @@ static void	_parser_apply_player(t_game *g, t_parser_data *data)
 	g->player.plane_y = dir_x * PLAYER_PLANE_SCALE;
 }
 
-/* Move grid and texture-path ownership to g before clearing the parser map. */
 static void	_parser_transfer(t_game *g, t_parser_data *data)
 {
 	g->map = data->map;

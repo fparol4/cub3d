@@ -29,25 +29,3 @@ char	parser_map_at(t_parser_data *data, int x, int y)
 		return (' ');
 	return (data->map.grid[y][x]);
 }
-
-size_t	parser_count_walkable_cells(t_parser_data *data)
-{
-	int		x;
-	int		y;
-	size_t	count;
-
-	y = 0;
-	count = 0;
-	while (y < data->map.height)
-	{
-		x = 0;
-		while (x < data->map.width)
-		{
-			if (parser_is_walkable(parser_map_at(data, x, y)))
-				count++;
-			x++;
-		}
-		y++;
-	}
-	return (count);
-}

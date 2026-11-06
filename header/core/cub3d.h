@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 17:02:50 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 17:02:50 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_H
 # include "const.h"
 # include "enum.h"
-# include "struct.h"
 # include "libft.h"
 # include "mlx.h"
 # include "source/common.h"
@@ -28,6 +27,7 @@
 # include "source/screen.h"
 # include "source/setup.h"
 # include "source/texture.h"
+# include "struct.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>

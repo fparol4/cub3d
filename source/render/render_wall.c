@@ -31,7 +31,6 @@ static void	_render_background(t_game *g, int x)
 	}
 }
 
-/* Flip opposite wall faces so textures keep a consistent orientation. */
 static void	_render_column_setup(t_game *g, t_raycast *rc, t_column *col)
 {
 	double	distance;
@@ -53,7 +52,6 @@ static void	_render_column_setup(t_game *g, t_raycast *rc, t_column *col)
 		col->tex_x = col->texture->width - col->tex_x - 1;
 }
 
-/* Sample from the unclipped top so tall walls crop without stretching. */
 static void	_render_wall(t_game *g, int x, t_column *col)
 {
 	char	*dst;

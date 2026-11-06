@@ -12,7 +12,6 @@
 
 #include "core/cub3d.h"
 
-/* Zero components cannot cross that axis; positive steps use the far edge. */
 static void	_raycast_setup(t_game *g, t_raycast *rc)
 {
 	rc->state.map_x = (int)floor(g->player.pos_x);

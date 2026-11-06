@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 17:02:50 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 17:02:50 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef enum e_tile
 	T_WALL = '1'
 }	t_tile;
 
-// GAME-KEY
 typedef enum e_gkey
 {
 	GK_FORWARD,

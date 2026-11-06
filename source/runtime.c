@@ -17,7 +17,7 @@ int	runtime_args(int argc, char **argv)
 	size_t	length;
 	char	*message;
 
-	message = "Usage: ./cub3d <map.cub>";
+	message = "Usage: ./cub3D <map.cub>";
 	if (argc != 2)
 		return (common_error(message));
 	length = ft_strlen(argv[1]);

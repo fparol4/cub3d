@@ -12,7 +12,6 @@
 
 #include "core/cub3d.h"
 
-/* Replaces the pointer array; existing row strings keep their ownership. */
 static char	**_parser_resize_grid(t_parser_data *data)
 {
 	char	**grid;
@@ -29,7 +28,6 @@ static char	**_parser_resize_grid(t_parser_data *data)
 	return (grid);
 }
 
-/* Takes ownership of line only after the resized grid is available. */
 int	parser_store_map_line(t_parser_data *data, char *line)
 {
 	char	**grid;

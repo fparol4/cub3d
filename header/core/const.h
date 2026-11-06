@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/17 14:00:00 by fcardozo         #+#    #+#             */
-/*   Updated: 2026/10/17 14:00:00 by fcardozo         ###   ########.fr       */
+/*   Created: 2026/11/06 17:02:49 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/11/06 17:02:49 by fcardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # define PLAYER_SPEED 2.5
 # define PLAYER_ROTATION_SPEED 1.8
 # define PLAYER_RADIUS 0.2
-# define PLAYER_PLANE_SCALE 0.66
+# define PLAYER_PLANE_SCALE 0.6
 # define PLAYER_MAX_ELAPSED 0.05
-# define RENDER_FOV_RAYS 260
+# define RENDER_FOV_RAYS 300
 # define RENDER_MIN_DISTANCE 0.05
 # define RAYCAST_UNREACHABLE_DISTANCE 1e30
 

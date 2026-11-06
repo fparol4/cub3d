@@ -1,0 +1,162 @@
+01  cub3D: every function, one connected story
+02  How to use this pre-presentation
+03  Navigation & source map
+04  The complete lifecycle
+05  The shared state and its ownership
+06  Parsing: a transactional pipeline
+07  Buffered input and line ownership
+08  The parser is a small state machine
+09  Configuration: six required fields
+10  Map validation: what is actually guaranteed
+11  Spawn and coordinate conventions
+12  Graphics setup and callback registration
+13  Events change state; frames use that state
+14  One frame: timing and dirty rendering
+15  Movement, collision and rotation
+16  Camera rays: direction plus a screen offset
+17  DDA: visit grid boundaries in order
+18  A worked ray from the supplied map
+19  A hit becomes a textured wall strip
+20  Which texture is visible, and where pixels go
+21  Screen composition and the minimap
+22  Drawing primitives and complexity
+23  Failures, closing, and resource release
+24  Three end-to-end traces to rehearse
+25  Build, tests and a practical demonstration
+26  Questions you should be ready to answer
+27  Math foundations: vectors, cells and units
+28  Why diagonal normalization and strafe signs work
+29  Rotation: where sine and cosine enter
+30  Time integration and the collision footprint
+31  Camera plane and the field-of-view triangle
+32  Deriving DDA increments and first boundaries
+33  An oblique DDA trace, including the tie rule
+34  Depth, Euclidean length, and the fish-eye proof
+35  Projection: similar triangles and the chosen scale
+36  Screen strips, clipping and integer arithmetic
+37  Texture coordinates: fractional position and crop
+38  Minimap transform and pixel/color arithmetic
+39  Bresenham: integer error instead of slope division
+40  common.c
+41  game.c
+42  hook.c
+43  main.c
+44  parser.c
+45  parser_cells.c
+46  parser_color.c
+47  parser_config.c
+48  parser_grid.c
+49  parser_line_reader.c
+50  parser_lines.c
+51  parser_map_lines.c
+52  parser_reader.c
+53  parser_validate.c
+54  player.c
+55  raycast.c
+56  raycast_camera.c
+57  render_draw.c
+58  render_fov.c
+59  render_view.c
+60  render_wall.c
+61  runtime.c
+62  screen.c
+63  setup.c
+64  texture.c
+65  Library boundaries and parser-only test entry
+66  Final rehearsal: explain the project without the slides
+
+source/common.c:15 common_key_id
+source/common.c:34 common_now
+source/common.c:43 common_error
+source/game.c:15 _game_has_motion
+source/game.c:22 _game_player_changed
+source/game.c:30 _game_update_player
+source/game.c:40 _game_render
+source/game.c:53 game_frame
+source/hook.c:15 hook_press
+source/hook.c:39 hook_release
+source/hook.c:53 hook_focus_out
+source/hook.c:67 hook_expose
+source/main.c:15 main
+source/parser/parser.c:15 _parser_apply_player
+source/parser/parser.c:38 _parser_transfer
+source/parser/parser.c:46 parser_cleanup
+source/parser/parser.c:62 parser_load_map
+source/parser/parser_cells.c:15 parser_is_player
+source/parser/parser_cells.c:20 parser_is_walkable
+source/parser/parser_cells.c:25 parser_map_at
+source/parser/parser_color.c:15 _parser_skip_space
+source/parser/parser_color.c:21 _parser_parse_rgb_value
+source/parser/parser_color.c:41 _parser_parse_separator
+source/parser/parser_color.c:49 _parser_parse_rgb
+source/parser/parser_color.c:63 parser_parse_color
+source/parser/parser_config.c:15 _parser_texture_field
+source/parser/parser_config.c:28 _parser_texture_slot
+source/parser/parser_config.c:41 _parser_parse_texture_config
+source/parser/parser_config.c:64 _parser_parse_color_config
+source/parser/parser_config.c:84 parser_parse_config
+source/parser/parser_grid.c:15 _parser_free_grid
+source/parser/parser_grid.c:25 _parser_pad_row
+source/parser/parser_grid.c:45 _parser_copy_grid
+source/parser/parser_grid.c:67 parser_rectangularize
+source/parser/parser_line_reader.c:16 _parser_read_byte
+source/parser/parser_line_reader.c:34 _parser_append_byte
+source/parser/parser_line_reader.c:59 _parser_collect_line
+source/parser/parser_line_reader.c:78 parser_next_line
+source/parser/parser_lines.c:15 _parser_is_map_start
+source/parser/parser_lines.c:24 _parser_process_content
+source/parser/parser_lines.c:44 parser_process_line
+source/parser/parser_map_lines.c:15 _parser_resize_grid
+source/parser/parser_map_lines.c:31 parser_store_map_line
+source/parser/parser_reader.c:15 _parser_read_lines
+source/parser/parser_reader.c:33 parser_read_file
+source/parser/parser_validate.c:15 _parser_is_closed_cell
+source/parser/parser_validate.c:32 _parser_inspect_map_line
+source/parser/parser_validate.c:56 _parser_validate_closed_cells
+source/parser/parser_validate.c:77 _parser_scan_cells
+source/parser/parser_validate.c:93 parser_validate_map
+source/player.c:15 _player_cell_blocked
+source/player.c:29 _player_position_valid
+source/player.c:40 _player_move
+source/player.c:65 _player_rotate
+source/player.c:81 player_update
+source/raycast.c:15 _raycast_setup
+source/raycast.c:37 _raycast_advance
+source/raycast.c:55 _raycast_in_boundaries
+source/raycast.c:61 _raycast_record_hit
+source/raycast.c:71 raycast_cast
+source/raycast_camera.c:15 raycast_camera_ray
+source/render/render_draw.c:15 _render_line_step
+source/render/render_draw.c:32 render_px
+source/render/render_draw.c:43 render_line
+source/render/render_draw.c:61 render_rect
+source/render/render_draw.c:78 render_world_to_map
+source/render/render_fov.c:15 _render_fov_ray
+source/render/render_fov.c:28 render_fov
+source/render/render_view.c:15 _render_tile_color
+source/render/render_view.c:24 _render_map_cell
+source/render/render_view.c:43 _render_map
+source/render/render_view.c:60 _render_player
+source/render/render_view.c:79 render_map_view
+source/render/render_wall.c:15 _render_background
+source/render/render_wall.c:34 _render_column_setup
+source/render/render_wall.c:55 _render_wall
+source/render/render_wall.c:76 _render_3d_ray
+source/render/render_wall.c:96 render_3d
+source/runtime.c:15 runtime_args
+source/runtime.c:29 runtime_cleanup
+source/runtime.c:47 runtime_setup
+source/runtime.c:59 runtime_run
+source/runtime.c:66 runtime_close
+source/screen.c:15 _screen_overlay
+source/screen.c:33 screen_toggle_view
+source/screen.c:42 screen_clear
+source/screen.c:51 screen_render
+source/setup.c:15 _setup_mlx
+source/setup.c:27 _setup_hook
+source/setup.c:40 _setup_frame
+source/setup.c:58 setup_game
+source/texture.c:15 _texture_load
+source/texture.c:28 texture_load
+source/texture.c:42 texture_cleanup
+source/texture.c:55 texture_for_hit
